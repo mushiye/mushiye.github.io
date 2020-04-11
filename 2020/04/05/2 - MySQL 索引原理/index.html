@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    <link rel="dns-prefetch" href="//cdn.bootcss.com" />
+    <link rel="dns-prefetch" href="//secure.gravatar.com" />
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    
+    <title>
+    
+        MySQL 索引（一） —— 原理详解 - 木实
+    
+    </title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    
+    <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/atom-one-dark.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.min.css">
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+</head>
+<body class="bg-white" gtools_scp_screen_capture_injected="true">
+<a id="top" style="top: 0px;"></a>
+<!--[if lt IE 8]>
+<div class="browsehappy" role="dialog">
+    当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/" target="_blank">升级你的浏览器</a>。
+</div>
+<![endif]-->
+<header id="header" class="header bg-white">
+    <div class="navbar-container">
+        <a href="/" class="navbar-logo">
+            
+            木实
+            
+        </a>
+        <div class="navbar-menu">
+            
+            <a href="/categories" class="">分类</a>
+            
+            <a href="/tags" class="">标签</a>
+            
+            <a href="/archives" class="">归档</a>
+            
+            <a href="/links" class="">友情链接</a>
+            
+            <a href="/about" class="">关于我</a>
+            
+        </div>
+        <div class="navbar-mobile-menu" onclick="">
+            <span class="icon-menu cross"><span class="middle"></span></span>
+            <ul>
+                
+                <li><a href="/categories" class="">分类</a></li>
+                
+                <li><a href="/tags" class="">标签</a></li>
+                
+                <li><a href="/archives" class="">归档</a></li>
+                
+                <li><a href="/links" class="">友情链接</a></li>
+                
+                <li><a href="/about" class="">关于我</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</header>
+
+
+
+<div class="post-header-thumb">
+	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/6.jpg);"></div>
+	<div class="post-header-thumb-cover">
+		<div class="post-header-thumb-container">
+			<div class="post-header-thumb-title">
+				MySQL 索引（一） —— 原理详解
+			</div>
+			<div class="post-header-thumb-meta">
+				
+				<time datetime="1586076385" itemprop="datePublished">发布于 2020-04-05 in </time>
+				<a href="/categories/MySQL/">MySQL</a>
+				
+				<div class="post-header-thumb-meta" style="font-size: 13px;">
+					<span class="post-count">本文字数：4.8k 字</span>
+					<span>|</span>
+					<span class="post-count">阅读时长 ≈ 17 分钟</span>
+				</div>
+			</div>
+			<div class="post-tags">
+				
+				
+                <a href="/tags/MySQL/">MySQL</a>
+                
+                <a href="/tags/%E7%B4%A2%E5%BC%95/">索引</a>
+                
+                <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>
+                
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
+	<div class="post-header">
+		<h1 class="post-title" itemprop="name headline">
+			MySQL 索引（一） —— 原理详解
+		</h1>
+		<div class="post-data">
+			
+            <time datetime="1586076385" itemprop="datePublished">发布于 2020-04-05 in </time><a href="/categories/MySQL/">MySQL</a>
+			
+			<div style="font-size: 13px;">
+				<span class="post-count">本文字数：4.8k 字</span>
+				<span>|</span>
+				<span class="post-count">阅读时长 ≈ 17 分钟</span>
+			</div>
+		</div>
+	</div>
+	<div id="post-content" class="post-content" itemprop="articleBody">
+		<p class="post-tags">
+            
+            
+            <a href="/tags/MySQL/">MySQL</a>
+            
+            <a href="/tags/%E7%B4%A2%E5%BC%95/">索引</a>
+            
+            <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>
+            
+            
+        </p>
+		<h1 id="什么是索引？为什么要建立索引"><a href="#什么是索引？为什么要建立索引" class="headerlink" title="什么是索引？为什么要建立索引"></a>什么是索引？为什么要建立索引</h1><p>MySQL 官方对索引的定义为：<strong>索引（Index）是帮助 MySQL 高效获取数据的数据结构</strong>。提取句子主干，就可以得到索引的本质：索引是数据结构。</p>
+<p>索引用于快速找出在某个列中有一特定值的行。若不使用索引，MySQL 则必须从第一条记录开始读完整个表，直到找出相关的行；表越大，查询数据所花费的时间就越多。如果表中查询的列有一个索引，MySQL 能够快速到达一个位置去搜索数据文件，而不必查看所有数据，那么将会节省很大一部分时间。</p>
+<h1 id="索引方式"><a href="#索引方式" class="headerlink" title="索引方式"></a>索引方式</h1><p>一般有四种索引方式：<strong>BTREE，HASH ，RTREE， FULLTEXT</strong></p>
+<h2 id="BTREE（balance-tree-平衡树）"><a href="#BTREE（balance-tree-平衡树）" class="headerlink" title="BTREE（balance tree - 平衡树）"></a>BTREE（balance tree - 平衡树）</h2><p>BTREE 索引就是一种将索引值按一定的算法，存入一个树形的数据结构中。</p>
+<p>目前大部分数据库系统及文件系统都采用 B-Tree 或其变种 B+Tree 作为索引结构。B+Tree 中的 B 代表平衡（balance），而不是二叉（binary），因为 B+Tree 是从最早的平衡二叉树演化而来的。在讲 B+Tree 之前必须先了解二叉查找树、平衡二叉树（AVLTree）和平衡多路查找树（B-Tree），B+Tree 即由这些树逐步优化而来。</p>
+<h3 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h3><p>二叉树具有以下性质：左子树的键值小于根的键值，右子树的键值大于根的键值。</p>
+<p>如下图所示就是一棵二叉查找树</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/1-%E4%BA%8C%E5%8F%89%E6%A0%91.jpg" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/1-%E4%BA%8C%E5%8F%89%E6%A0%91.jpg"></a></p>
+<p>对该二叉树的节点进行查找发现深度为 1 的节点的查找次数为 1，深度为 2 的查找次数为 2，深度为 n 的节点的查找次数为 n，因此其平均查找次数为 (1+2+2+3+3+3) / 6 = 2.3 次</p>
+<p>二叉查找树可以任意地构造，同样是 2,3,5,6,7,8 这六个数字，也可以按照下图的方式来构造：</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/2-%E4%BA%8C%E5%8F%89%E6%A0%91.jpg" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/2-%E4%BA%8C%E5%8F%89%E6%A0%91.jpg"></a></p>
+<p>但是这棵二叉树的查询效率就低了。因此若想二叉树的查询效率尽可能高，需要这棵二叉树是平衡的，从而引出新的定义——平衡二叉树，或称 AVL 树。</p>
+<h3 id="平衡二叉树（AVL-Tree）"><a href="#平衡二叉树（AVL-Tree）" class="headerlink" title="平衡二叉树（AVL Tree）"></a>平衡二叉树（AVL Tree）</h3><p>平衡二叉树（AVL树）在符合二叉查找树的条件下，还满足任何节点的两个子树的高度最大差为 1。下面的两张图片，左边是 AVL 树，它的任何节点的两个子树的高度差 &lt;=1；右边的不是 AVL 树，其根节点的左子树高度为 3，而右子树高度为 1；</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%911.jpg" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%911.jpg"></a></p>
+<p>如果在 AVL 树中进行插入或删除节点，可能导致 AVL树 失去平衡，这种失去平衡的二叉树可以概括为四种姿态：LL（左左）、RR（右右）、LR（左右）、RL（右左）。它们的示意图如下：</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%912.jpg" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%912.jpg"></a></p>
+<p>这四种失去平衡的姿态都有各自的定义：</p>
+<ul>
+<li>LL：LeftLeft，也称“左左”。插入或删除一个节点后，根节点的左孩子（Left Child）的左孩子（Left Child）还有非空节点，导致根节点的左子树高度比右子树高度高 2，AVL 树失去平衡。</li>
+<li>RR：RightRight，也称“右右”。插入或删除一个节点后，根节点的右孩子（Right Child）的右孩子（Right Child）还有非空节点，导致根节点的右子树高度比左子树高度高 2，AVL 树失去平衡。</li>
+<li>LR：LeftRight，也称“左右”。插入或删除一个节点后，根节点的左孩子（Left Child）的右孩子（Right Child）还有非空节点，导致根节点的左子树高度比右子树高度高 2，AVL 树失去平衡。</li>
+<li>RL：RightLeft，也称“右左”。插入或删除一个节点后，根节点的右孩子（Right Child）的左孩子（Left Child）还有非空节点，导致根节点的右子树高度比左子树高度高 2，AVL 树失去平衡。</li>
+</ul>
+<p>AVL 树失去平衡之后，可以通过旋转使其恢复平衡。下面分别介绍四种失去平衡的情况下对应的旋转方法。</p>
+<p>LL 的旋转。LL 失去平衡的情况下，可以通过一次旋转让 AVL 树恢复平衡。步骤如下：</p>
+<ol>
+<li>将根节点的左孩子作为新根节点。</li>
+<li>将新根节点的右孩子作为原根节点的左孩子。</li>
+<li>将原根节点作为新根节点的右孩子。</li>
+</ol>
+<p>LL 旋转示意图如下：</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/20200406101028.png" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/20200406101028.png"></a></p>
+<p>RR 的旋转：RR 失去平衡的情况下，旋转方法与 LL 旋转对称，步骤如下：</p>
+<ol>
+<li>将根节点的右孩子作为新根节点。</li>
+<li>将新根节点的左孩子作为原根节点的右孩子。</li>
+<li>将原根节点作为新根节点的左孩子。</li>
+</ol>
+<p>RR旋转示意图如下：</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/20200406101736.png" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/20200406101736.png"></a></p>
+<p>LR 的旋转：LR 失去平衡的情况下，需要进行两次旋转，步骤如下：</p>
+<ol>
+<li>围绕根节点的左孩子进行 RR 旋转。</li>
+<li>围绕根节点进行 LL 旋转。</li>
+<li>LR 的旋转示意图如下：</li>
+</ol>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/20200406102207.png" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/20200406102207.png"></a></p>
+<p>RL 的旋转：RL 失去平衡的情况下也需要进行两次旋转，旋转方法与 LR 旋转对称，步骤如下：</p>
+<ol>
+<li>围绕根节点的右孩子进行 LL 旋转。</li>
+<li>围绕根节点进行 RR 旋转。</li>
+<li>RL 的旋转示意图如下：</li>
+</ol>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/20200406102337.png" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/20200406102337.png"></a></p>
+<h3 id="平衡多路查找树（B-Tree）"><a href="#平衡多路查找树（B-Tree）" class="headerlink" title="平衡多路查找树（B-Tree）"></a>平衡多路查找树（B-Tree）</h3><p>B-Tree 是为磁盘等外存储设备设计的一种平衡查找树。因此在讲 B-Tree 之前先了解下磁盘的相关知识。</p>
+<p>系统从磁盘读取数据到内存时是以磁盘块（block）为基本单位的，位于同一个磁盘块中的数据会被一次性读取出来，而不是需要什么取什么。</p>
+<p>InnoDB 存储引擎中有页（Page）的概念，页是其磁盘管理的最小单位。InnoDB 存储引擎中默认每个页的大小为 16KB，可通过参数 innodb_page_size 将页的大小设置为4K、8K、16K，在 MySQL 中可通过如下命令查看页的大小：</p>
+<pre><code>mysql&gt; show variables like &#39;innodb_page_size&#39;;
++------------------+-------+
+| Variable_name    | Value |
++------------------+-------+
+| innodb_page_size | 16384 |
++------------------+-------+
+1 row in set (0.00 sec)</code></pre><p>而系统一个磁盘块的存储空间往往没有这么大，因此 InnoDB 每次申请磁盘空间时都会是若干地址连续磁盘块来达到页的大小 16KB。InnoDB 在把磁盘数据读入到内存时会以页为基本单位，在查询数据时如果一个页中的每条数据都能有助于定位数据记录的位置，这将会减少磁盘 I/O 次数，提高查询效率。</p>
+<p>B-Tree 结构的数据可以让系统高效的找到数据所在的磁盘块。为了描述 B-Tree，首先定义一条记录为一个二元组 [key, data] ，key 为记录的键值，对应表中的主键值，data 为一行记录中除主键外的数据。对于不同的记录，key 值互不相同。</p>
+<p>一棵 m 阶（阶数是一个节点的子节点数目的最大值）的 B-Tree 有如下特性：</p>
+<ol>
+<li>每个节点最多有 m 个孩子。</li>
+<li>除了根节点和叶子节点外，其它每个节点至少有 Ceil(m/2) 个孩子。</li>
+<li>若根节点不是叶子节点，则至少有 2 个孩子</li>
+<li>所有叶子节点都在同一层，且不包含其它关键字信息</li>
+<li>每个非终端节点包含 n 个关键字信息（P0,P1,…Pn, k1,…kn）</li>
+<li>关键字的个数 n 满足：ceil(m/2)-1 &lt;= n &lt;= m-1</li>
+<li>ki(i=1,…n) 为关键字，且关键字升序排序。</li>
+<li>Pi(i=1,…n) 为指向子树根节点的指针。P(i-1) 指向的子树的所有节点关键字均小于 ki，但都大于 k(i-1)</li>
+</ol>
+<p>B-Tree 中的每个节点根据实际情况可以包含大量的关键字信息和分支，如下图所示为一个 3 阶的 B-Tree：</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/20200406103310.png" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/20200406103310.png"></a></p>
+<p>每个节点占用一个盘块的磁盘空间，一个节点上有两个升序排序的关键字和三个指向子树根节点的指针，指针存储的是子节点所在磁盘块的地址。两个关键词划分成的三个范围域对应三个指针指向的子树的数据的范围域。以根节点为例，关键字为17和35，P1指针指向的子树的数据范围为小于17，P2指针指向的子树的数据范围为17~35，P3指针指向的子树的数据范围为大于35。</p>
+<p>模拟查找关键字 29 的过程：</p>
+<ol>
+<li>根据根节点找到磁盘块 1，读入内存。【磁盘I/O操作第1次】</li>
+<li>比较关键字 29 在区间（17,35），找到磁盘块1的指针P2。</li>
+<li>根据 P2 指针找到磁盘块 3，读入内存。【磁盘I/O操作第2次】</li>
+<li>比较关键字 29 在区间（26,30），找到磁盘块3的指针P2。</li>
+<li>根据 P2 指针找到磁盘块 8，读入内存。【磁盘I/O操作第3次】</li>
+<li>在磁盘块 8 中的关键字列表中找到关键字 29。</li>
+</ol>
+<p>分析上面过程，发现需要 3 次磁盘 I/O 操作，和 3 次内存查找操作。由于内存中的关键字是一个有序表结构，可以利用二分法查找提高效率。而 3 次磁盘 I/O 操作是影响整个 B-Tree 查找效率的决定因素。B-Tree 相对于 AVLTree 缩减了节点个数，使每次磁盘 I/O 取到内存的数据都发挥了作用，从而提高了查询效率。</p>
+<h3 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B+Tree"></a>B+Tree</h3><p>B+Tree 是在 B-Tree 基础上的一种优化，使其更适合实现外存储索引结构，InnoDB 存储引擎就是用 B+Tree 实现其索引结构。</p>
+<p>从上一节中的 B-Tree 结构图中可以看到每个节点中不仅包含数据的 key 值，还有 data 值。而每一个页的存储空间是有限的，如果 data 数据较大时将会导致每个节点（即一个页）能存储的 key 的数量很小，当存储的数据量很大时同样会导致 B-Tree 的深度较大，增大查询时的磁盘 I/O 次数，进而影响查询效率。在 B+Tree 中，所有数据记录节点都是按照键值大小顺序存放在同一层的叶子节点上，而非叶子节点上只存储 key 值信息，这样可以大大加大每个节点存储的 key 值数量，降低 B+Tree 的高度。</p>
+<p>B+Tree 相对于 B-Tree 有几点不同：</p>
+<ol>
+<li>非叶子节点只存储键值信息。</li>
+<li>所有叶子节点之间都有一个链指针。</li>
+<li>数据记录都存放在叶子节点中。</li>
+</ol>
+<p>将上一节中的 B-Tree 优化，由于 B+Tree 的非叶子节点只存储键值信息，假设每个磁盘块能存储 4 个键值及指针信息，则变成 B+Tree 后其结构如下图所示：</p>
+<p><a data-fancybox="gallery" href="https://gitee.com/mushiye/mushi/raw/master/images/20200406104007.png" target="_blank" rel="noopener" data-height="800"><img src="https://gitee.com/mushiye/mushi/raw/master/images/20200406104007.png"></a></p>
+<p>通常在 B+Tree 上有两个头指针，一个指向根节点，另一个指向关键字最小的叶子节点，而且所有叶子节点（即数据节点）之间是一种链式环结构。因此可以对B+Tree进行两种查找运算：一种是对于主键的范围查找和分页查找，另一种是从根节点开始，进行随机查找。</p>
+<p>可能上面例子中只有 22 条数据记录，看不出 B+Tree 的优点，下面做一个推算：</p>
+<p>InnoDB 存储引擎中页的大小为 16KB，一般表的主键类型为 INT（占用 4 个字节）或 BIGINT（占用 8 个字节），指针类型也一般为 4 或 8 个字节，也就是说一个页（B+Tree 中的一个节点）中大概存储 16KB/(8B+8B)=1K 个键值（因为是估值，为方便计算，这里的 K 取值为【10】^3 ）。也就是说一个深度为 3 的 B+Tree 索引可以维护 10^3 * 10^3 * 10^3 = 10 亿条记录。</p>
+<p>实际情况中每个节点可能不能填充满，因此在数据库中，B+Tree 的高度一般都在 2 ~ 4 层。MySQL 的 InnoDB 存储引擎在设计时是将根节点常驻内存的，也就是说查找某一键值的行记录时最多只需要 1 ~ 3 次磁盘 I/O 操作。</p>
+<p>数据库中的 B+Tree 索引可以分为<strong>聚集索引</strong>（clustered index）和<strong>辅助索引</strong>（secondary index）。上面的 B+Tree 示例图在数据库中的实现即为聚集索引，聚集索引的 B+Tree中 的叶子节点存放的是整张表的行记录数据。辅助索引与聚集索引的区别在于辅助索引的叶子节点并不包含行记录的全部数据，而是存储相应行数据的聚集索引键，即主键。当通过辅助索引来查询数据时，InnoDB 存储引擎会遍历辅助索引找到主键，然后再通过主键在聚集索引中找到完整的行记录数据。</p>
+<h2 id="HASH"><a href="#HASH" class="headerlink" title="HASH"></a>HASH</h2><p>Hash 是一种（key=&gt;value）形式的键值对，如数学中的函数映射，允许多个key 对应相同的 value，但不允许一个 key 对应多个 value。由于 Hash 索引结构的特殊性，其检索效率非常高，索引的检索可以一次定位，不像 B-Tree 索引需要从根节点到枝节点，最后才能访问到页节点这样多次的 IO 访问，所以 Hash 索引的查询效率要远高于 B-Tree 索引。</p>
+<p>可能很多人又有疑问了，既然 Hash 索引的效率要比 B-Tree 高很多，为什么大家不都用 Hash 索引而还要使用 B-Tree 索引呢？任何事物都是有两面性的，Hash 索引也一样，虽然 Hash 索引效率高，但是 Hash 索引本身由于其特殊性也带来了很多限制和弊端，主要有以下这些。</p>
+<ol>
+<li>Hash 索引仅仅能满足”=”,”IN”和”&lt;=&gt;”查询，不能使用范围查询。</li>
+</ol>
+<p>由于 Hash 索引比较的是进行 Hash 运算之后的 Hash 值，所以它只能用于等值的过滤，不能用于基于范围的过滤，因为经过相应的 Hash 算法处理之后的 Hash 值的大小关系，并不能保证和Hash运算前完全一样。</p>
+<ol start="2">
+<li>Hash 索引无法被用来避免数据的排序操作。</li>
+</ol>
+<p>由于 Hash 索引中存放的是经过 Hash 计算之后的 Hash 值，而且 Hash 值的大小关系并不一定和 Hash 运算前的键值完全一样，所以数据库无法利用索引的数据来避免任何排序运算</p>
+<ol start="3">
+<li>Hash 索引不能利用部分索引键查询。</li>
+</ol>
+<p>对于组合索引，Hash 索引在计算 Hash 值的时候是组合索引键合并后再一起计算 Hash 值，而不是单独计算 Hash 值，所以通过组合索引的前面一个或几个索引键进行查询的时候，Hash 索引也无法被利用。</p>
+<ol start="4">
+<li>Hash 索引在任何时候都不能避免表扫描。</li>
+</ol>
+<p>前面已经知道，Hash 索引是将索引键通过 Hash 运算之后，将 Hash运算结果的 Hash 值和所对应的行指针信息存放于一个 Hash 表中，由于不同索引键存在相同 Hash 值，所以即使取满足某个 Hash 键值的数据的记录条数，也无法从 Hash 索引中直接完成查询，还是要通过访问表中的实际数据进行相应的比较，并得到相应的结果。</p>
+<ol start="5">
+<li>Hash 索引遇到大量 Hash 值相等的情况后性能并不一定就会比 B-Tree 索引高。</li>
+</ol>
+<p>对于选择性比较低的索引键，如果创建 Hash 索引，那么将会存在大量记录指针信息存于同一个 Hash 值相关联。这样要定位某一条记录时就会非常麻烦，会浪费多次表数据的访问，而造成整体性能低下。</p>
+<h2 id="RTREE"><a href="#RTREE" class="headerlink" title="RTREE"></a>RTREE</h2><p>RTREE 在 MySQL 很少使用，仅支持 geometry 数据类型，支持该类型的存储引擎只有 MyISAM、BDb、InnoDb、NDb、Archive 几种。</p>
+<p>相对于 BTREE ，RTREE 的优势在于范围查找.</p>
+<h2 id="FULLTEXT"><a href="#FULLTEXT" class="headerlink" title="FULLTEXT"></a>FULLTEXT</h2><p>即为全文索引，目前只有 MyISAM 引擎支持。其可以在 CREATE TABLE ，ALTER TABLE ，CREATE INDEX 使用，不过目前只有 CHAR、VARCHAR ，TEXT 列上可以创建全文索引。值得一提的是，在数据量较大时候，现将数据放入一个没有全局索引的表中，然后再用 CREATE INDEX 创建F ULLTEXT 索引，要比先为一张表建立 FULLTEXT 然后再将数据写入的速度快很多。</p>
+<p>全文索引并不是和 MyISAM 一起诞生的，它的出现是为了解决<code>WHERE name LIKE &quot;%word%&quot;</code>这类针对文本的模糊查询效率较低的问题。在没有全文索引之前，这样一个查询语句是要进行遍历数据表操作的，可见，在数据量较大时是极其的耗时的，如果没有异步 IO 处理，进程将被挟持，很浪费时间，当然这里不对异步IO作进一步讲解，想了解的童鞋，自行谷哥。</p>
+<h2 id="小结—各种索引的使用情况"><a href="#小结—各种索引的使用情况" class="headerlink" title="小结—各种索引的使用情况"></a>小结—各种索引的使用情况</h2><ol>
+<li>对于 BTREE 这种 MySQL 默认的索引方式，具有普遍的适用性</li>
+<li>由于 FULLTEXT 对中文支持不是很好，在没有插件的情况下，最好不要使用。其实，一些小的博客应用，只需要在数据采集时，为其建立关键字列表，通过关键字索引，也是一个不错的方法，至少我是经常这么做的。</li>
+<li>对于一些搜索引擎级别的应用来说，FULLTEXT 同样不是一个好的处理方法，MySQL 的全文索引建立的文件还是比较大的，而且效率不是很高，即便是使用了中文分词插件，对中文分词支持也只是一般。真要碰到这种问题，Apache 的 Lucene 或许是你的选择。</li>
+<li>正是因为 hash 表在处理较小数据量时具有无可比拟的素的优势，所以 hash 索引很适合做缓存（内存数据库）。如 MySQL 数据库的内存版本 Memsql，使用量很广泛的缓存工具 Mencached，NoSQL 数据库 Redis 等，都使用了 hash 索引这种形式。当然，不想学习这些东西的话 MySQL 的 MEMORY 引擎也是可以满足这种需求的。</li>
+<li>至于RTREE，至今还没有使用过，它具体怎么样，我就不知道了。有 RTREE 使用经历的同学，到时可以交流下！</li>
+</ol>
+<p><strong>聚簇索引与非聚簇索引</strong></p>
+<ul>
+<li>聚簇索引：索引的叶节点指向数据<ul>
+<li>优：查询数据少时，无须回行</li>
+<li>劣：不规则插入数据，频繁的页分裂</li>
+</ul>
+</li>
+<li>非聚簇索引：索引的叶节点指向数据的引用</li>
+</ul>
+<p>myisam 使用非聚簇索引，innodb 使用聚簇索引</p>
+<p>对于 innodb 引擎：</p>
+<ol>
+<li>主键索引既存储索引值，又在叶中存储行数据</li>
+<li>如果没有主键，则会使用 unique key 做主键</li>
+<li>如果没有 unique，则 MySQL 会生成一个 rowid 做主键</li>
+</ol>
+
+		
+		
+		<p class="post-info">
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-04-05 20:46
+		</p>
+	</div>
+</article>
+<div id="post-bottom-bar" class="post-bottom-bar">
+	<div class="bottom-bar-inner">
+		<div class="bottom-bar-items social-share left">
+			<span class="bottom-bar-item">Share : </span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/index.html" target="_blank" title="MySQL 索引（一） —— 原理详解" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/&text=MySQL 索引（一） —— 原理详解" target="_blank" title="MySQL 索引（一） —— 原理详解" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=MySQL 索引（一） —— 原理详解" target="_blank" title="MySQL 索引（一） —— 原理详解" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+		</div>
+		<div class="bottom-bar-items right">
+            
+            <span class="bottom-bar-item"><a href="/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/">←</a></span>
+            
+            
+            <span class="bottom-bar-item"><a href="/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/">→</a></span>
+            
+			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
+			<span class="bottom-bar-item"><a href="#top">↑</a></span>
+		</div>
+	</div>
+</div>
+
+
+<div class="related-post-lists">
+	<div class="post-lists">
+		<div class="post-lists-body">
+		
+			<div class="post-list-item">
+				<div class="post-list-item-container">
+					<div class="item-label">
+						<div class="item-title"><a href="/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/">MySQL 索引（二）—— 使用实战</a></div>
+						<div class="item-meta clearfix">
+							<div class="item-meta-date" style="color: #5f5f5f;">2020-04-10</div>
+							<div class="item-meta-ico bg-ico-design" style="background: url(/images/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
+                            <div class="item-meta-cat">
+                                
+                                <a href="/categories/MySQL/">MySQL</a>
+                                
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+
+
+<footer id="footer" class="footer bg-white">
+	<div class="footer-social">
+		<div class="footer-container clearfix">
+			<div class="social-list">
+                
+                    <a class="social" target="blank" href="https://github.com/mushiye">Github</a>
+                
+            </div>
+		</div>
+	</div>
+	<div class="footer-meta">
+		<div class="footer-container">
+			<div class="meta-item meta-copyright">
+				<div class="meta-copyright-info">
+                    <a href="http://yoursite.com" class="info-logo">
+                        
+                        木实
+                        
+                    </a>
+					<div class="info-text">
+                        <!-- <p id="chakhsu"></p>
+                    	<p>Theme is <a href="https://github.com/cccyb/hexo-theme-pinghsu" target="_blank">Pinghsu</a> by <a href="http://yoursite.com" target="_blank">曾果</a></p>
+						<p>Powered by <a href="https://hexo.io/" target="_blank" rel="nofollow">hexo</a></p> -->
+                        <p style="margin-top: 10px">站点总字数：8.7k</p>
+                        <!-- 
+                        <p><span id="busuanzi_container_site_pv" style='display:none'>本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</span></p>
+                        <p><span id="busuanzi_container_site_uv" style='display:none'>本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span></p> -->
+                        
+                        
+                        <p style="margin-top: 10px">&copy; 2020 - 2020 <a href="http://yoursite.com">木实</a></p>
+                    </div>
+				</div>
+            </div>
+            
+            <div class="meta-item meta-posts">
+                <h3 class="meta-title">最近文章</h3>
+                
+                <li><a href="/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/">MySQL 索引（二）—— 使用实战</a></li>
+                
+                <li><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">MySQL 索引（一） —— 原理详解</a></li>
+                
+                <li><a href="/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/">Vue 中使用 ECharts 在 Element 弹窗中画图</a></li>
+                
+            </div>
+            
+            
+		</div>
+	</div>
+</footer>
+
+
+<div id="directory-content" class="directory-content">
+    <div id="directory"></div>
+</div>
+<script>
+var postDirectoryBuild = function() {
+    var postChildren = function children(childNodes, reg) {
+        var result = [],
+            isReg = typeof reg === 'object',
+            isStr = typeof reg === 'string',
+            node, i, len;
+        for (i = 0, len = childNodes.length; i < len; i++) {
+            node = childNodes[i];
+            if ((node.nodeType === 1 || node.nodeType === 9) &&
+                (!reg ||
+                isReg && reg.test(node.tagName.toLowerCase()) ||
+                isStr && node.tagName.toLowerCase() === reg)) {
+                result.push(node);
+            }
+        }
+        return result;
+    },
+    createPostDirectory = function(article, directory, isDirNum) {
+        var contentArr = [],
+            titleId = [],
+            levelArr, root, level,
+            currentList, list, li, link, i, len;
+        levelArr = (function(article, contentArr, titleId) {
+            var titleElem = postChildren(article.childNodes, /^h\d$/),
+                levelArr = [],
+                lastNum = 1,
+                lastRevNum = 1,
+                count = 0,
+                guid = 1,
+                id = 'directory' + (Math.random() + '').replace(/\D/, ''),
+                lastRevNum, num, elem;
+            while (titleElem.length) {
+                elem = titleElem.shift();
+                contentArr.push(elem.innerHTML);
+                num = +elem.tagName.match(/\d/)[0];
+                if (num > lastNum) {
+                    levelArr.push(1);
+                    lastRevNum += 1;
+                } else if (num === lastRevNum ||
+                    num > lastRevNum && num <= lastNum) {
+                    levelArr.push(0);
+                    lastRevNum = lastRevNum;
+                } else if (num < lastRevNum) {
+                    levelArr.push(num - lastRevNum);
+                    lastRevNum = num;
+                }
+                count += levelArr[levelArr.length - 1];
+                lastNum = num;
+                elem.id = id + guid++;
+                titleId.push(elem.id);
+            }
+            if (count !== 0 && levelArr[0] === 1) levelArr[0] = 0;
+            return levelArr;
+        })(article, contentArr, titleId);
+        currentList = root = document.createElement('ul');
+        dirNum = [0];
+        for (i = 0, len = levelArr.length; i < len; i++) {
+            level = levelArr[i];
+            if (level === 1) {
+                list = document.createElement('ul');
+                if (!currentList.lastElementChild) {
+                    currentList.appendChild(document.createElement('li'));
+                }
+                currentList.lastElementChild.appendChild(list);
+                currentList = list;
+                dirNum.push(0);
+            } else if (level < 0) {
+                level *= 2;
+                while (level++) {
+                    if (level % 2) dirNum.pop();
+                    currentList = currentList.parentNode;
+                }
+            }
+            dirNum[dirNum.length - 1]++;
+            li = document.createElement('li');
+            link = document.createElement('a');
+            link.href = '#' + titleId[i];
+            link.innerHTML = !isDirNum ? contentArr[i] :
+                dirNum.join('.') + ' ' + contentArr[i] ;
+            li.appendChild(link);
+            currentList.appendChild(li);
+        }
+        directory.appendChild(root);
+    };
+    createPostDirectory(document.getElementById('post-content'),document.getElementById('directory'), true);
+};
+postDirectoryBuild();
+</script>
+
+<script src="//cdn.bootcss.com/headroom/0.9.1/headroom.min.js"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+
+<script>
+
+var postDirectory = new Headroom(document.getElementById("directory-content"), {
+    tolerance: 0,
+    
+    offset : 280,
+    
+    classes: {
+        initial: "initial",
+        pinned: "pinned",
+        unpinned: "unpinned"
+    }
+});
+postDirectory.init();
+
+
+var postSharer = new Headroom(document.getElementById("post-bottom-bar"), {
+    tolerance: 0,
+    offset : 70,
+    classes: {
+        initial: "animated",
+        pinned: "pinned",
+        unpinned: "unpinned"
+    }
+});
+postSharer.init();
+
+var header = new Headroom(document.getElementById("header"), {
+    tolerance: 0,
+    offset : 70,
+    classes: {
+      initial: "animated",
+      pinned: "slideDown",
+      unpinned: "slideUp"
+    }
+});
+header.init();
+
+hljs.initHighlightingOnLoad();
+ 
+
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
+
+</script>
+<script>
+var words = 'Hexo,Theme,Pinghsu'.split(',').map(item => item.trim());
+var chakhsu = function(r){function t(){return b[Math.floor(Math.random()*b.length)]}function e(){return String.fromCharCode(94*Math.random()+33)}function n(r){for(var n=document.createDocumentFragment(),i=0;r>i;i++){var l=document.createElement("span");l.textContent=e(),l.style.color=t(),n.appendChild(l)}return n}function i(){var t=o[c.skillI];c.step?c.step--:(c.step=g,c.prefixP<l.length?(c.prefixP>=0&&(c.text+=l[c.prefixP]),c.prefixP++):"forward"===c.direction?c.skillP<t.length?(c.text+=t[c.skillP],c.skillP++):c.delay?c.delay--:(c.direction="backward",c.delay=a):c.skillP>0?(c.text=c.text.slice(0,-1),c.skillP--):(c.skillI=(c.skillI+1)%o.length,c.direction="forward")),r.textContent=c.text,r.appendChild(n(c.prefixP<l.length?Math.min(s,s+c.prefixP):Math.min(s,t.length-c.skillP))),setTimeout(i,d)}var l="I work with ",o=words.map(function(r){return r+"."}),a=2,g=1,s=5,d=75,b=["rgb(110,64,170)","rgb(150,61,179)","rgb(191,60,175)","rgb(228,65,157)","rgb(254,75,131)","rgb(255,94,99)","rgb(255,120,71)","rgb(251,150,51)","rgb(226,183,47)","rgb(198,214,60)","rgb(175,240,91)","rgb(127,246,88)","rgb(82,246,103)","rgb(48,239,130)","rgb(29,223,163)","rgb(26,199,194)","rgb(35,171,216)","rgb(54,140,225)","rgb(76,110,219)","rgb(96,84,200)"],c={text:"",prefixP:-s,skillI:0,skillP:0,direction:"forward",delay:a,step:g};i()};chakhsu(document.getElementById('chakhsu')); if ('addEventListener' in document) { document.addEventListener('DOMContentLoaded', function() { FastClick.attach(document.body); }, false); }
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    showProcessingMessages: false,
+    messageStyle: "none",
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+        ignoreClass:"comment-content"
+    },
+    "HTML-CSS": {
+        availableFonts: ["STIX","TeX"],
+        showMathMenu: false
+    }
+});
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script>
+
+
+
+</script>
+
+</body>
+</html>

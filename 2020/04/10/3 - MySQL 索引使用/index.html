@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    <link rel="dns-prefetch" href="//cdn.bootcss.com" />
+    <link rel="dns-prefetch" href="//secure.gravatar.com" />
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    
+    <title>
+    
+        MySQL 索引（二）—— 使用实战 - 木实
+    
+    </title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    
+    <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/atom-one-dark.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.min.css">
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+</head>
+<body class="bg-white" gtools_scp_screen_capture_injected="true">
+<a id="top" style="top: 0px;"></a>
+<!--[if lt IE 8]>
+<div class="browsehappy" role="dialog">
+    当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/" target="_blank">升级你的浏览器</a>。
+</div>
+<![endif]-->
+<header id="header" class="header bg-white">
+    <div class="navbar-container">
+        <a href="/" class="navbar-logo">
+            
+            木实
+            
+        </a>
+        <div class="navbar-menu">
+            
+            <a href="/categories" class="">分类</a>
+            
+            <a href="/tags" class="">标签</a>
+            
+            <a href="/archives" class="">归档</a>
+            
+            <a href="/links" class="">友情链接</a>
+            
+            <a href="/about" class="">关于我</a>
+            
+        </div>
+        <div class="navbar-mobile-menu" onclick="">
+            <span class="icon-menu cross"><span class="middle"></span></span>
+            <ul>
+                
+                <li><a href="/categories" class="">分类</a></li>
+                
+                <li><a href="/tags" class="">标签</a></li>
+                
+                <li><a href="/archives" class="">归档</a></li>
+                
+                <li><a href="/links" class="">友情链接</a></li>
+                
+                <li><a href="/about" class="">关于我</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</header>
+
+
+
+<div class="post-header-thumb">
+	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/15.jpg);"></div>
+	<div class="post-header-thumb-cover">
+		<div class="post-header-thumb-container">
+			<div class="post-header-thumb-title">
+				MySQL 索引（二）—— 使用实战
+			</div>
+			<div class="post-header-thumb-meta">
+				
+				<time datetime="1586524941" itemprop="datePublished">发布于 2020-04-10 in </time>
+				<a href="/categories/MySQL/">MySQL</a>
+				
+				<div class="post-header-thumb-meta" style="font-size: 13px;">
+					<span class="post-count">本文字数：3.4k 字</span>
+					<span>|</span>
+					<span class="post-count">阅读时长 ≈ 14 分钟</span>
+				</div>
+			</div>
+			<div class="post-tags">
+				
+				
+                <a href="/tags/MySQL/">MySQL</a>
+                
+                <a href="/tags/%E7%B4%A2%E5%BC%95/">索引</a>
+                
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
+	<div class="post-header">
+		<h1 class="post-title" itemprop="name headline">
+			MySQL 索引（二）—— 使用实战
+		</h1>
+		<div class="post-data">
+			
+            <time datetime="1586524941" itemprop="datePublished">发布于 2020-04-10 in </time><a href="/categories/MySQL/">MySQL</a>
+			
+			<div style="font-size: 13px;">
+				<span class="post-count">本文字数：3.4k 字</span>
+				<span>|</span>
+				<span class="post-count">阅读时长 ≈ 14 分钟</span>
+			</div>
+		</div>
+	</div>
+	<div id="post-content" class="post-content" itemprop="articleBody">
+		<p class="post-tags">
+            
+            
+            <a href="/tags/MySQL/">MySQL</a>
+            
+            <a href="/tags/%E7%B4%A2%E5%BC%95/">索引</a>
+            
+            
+        </p>
+		<h1 id="索引类型"><a href="#索引类型" class="headerlink" title="索引类型"></a>索引类型</h1><ul>
+<li>主键索引（PRIMARY）</li>
+</ul>
+<p>primary key() 要求关键字不能重复，也不能为 null，同时增加主键约束</p>
+<p>主键索引定义时，不能命名</p>
+<ul>
+<li>唯一索引（UNIQUE）</li>
+</ul>
+<p>unique index() 要求关键字不能重复，同时增加唯一约束</p>
+<ul>
+<li>普通索引（NORMAL）</li>
+</ul>
+<p>index() 对关键字没有要求</p>
+<ul>
+<li>全文索引（FULLTEXT）</li>
+</ul>
+<p>fulltext key() 关键字的来源不是所有字段的数据，而是字段中提取的特别关键字</p>
+<p><strong>关键字：可以是某个字段或多个字段，多个字段称为复合索引</strong></p>
+<pre><code>建表：
+creat table student(
+    stu_id int unsigned not null auto_increment,
+    name varchar(32) not null default &#39;&#39;,
+    phone char(11) not null default &#39;&#39;,
+    stu_code varchar(32) not null default &#39;&#39;,
+    stu_desc text,
+    primary key (&#39;stu_id&#39;),     //主键索引
+    unique index &#39;stu_code&#39; (&#39;stu_code&#39;), //唯一索引
+    index &#39;name_phone&#39; (&#39;name&#39;,&#39;phone&#39;),  //普通索引，复合索引
+    fulltext index &#39;stu_desc&#39; (&#39;stu_desc&#39;), //全文索引
+) engine=myisam charset=utf8;
+
+更新：
+alert table student
+    add primary key (&#39;stu_id&#39;),     //主键索引
+    add unique index &#39;stu_code&#39; (&#39;stu_code&#39;), //唯一索引
+    add index &#39;name_phone&#39; (&#39;name&#39;,&#39;phone&#39;),  //普通索引，复合索引
+    add fulltext index &#39;stu_desc&#39; (&#39;stu_desc&#39;); //全文索引
+
+删除：
+alert table sutdent
+    drop primary key,
+    drop index &#39;stu_code&#39;,
+    drop index &#39;name_phone&#39;,
+    drop index &#39;stu_desc&#39;;</code></pre><h1 id="索引使用原则"><a href="#索引使用原则" class="headerlink" title="索引使用原则"></a>索引使用原则</h1><ul>
+<li>列独立</li>
+</ul>
+<p>保证索引包含的字段独立在查询语句中，不能是在表达式中</p>
+<ul>
+<li>左前缀</li>
+</ul>
+<p>like：匹配模式左边不能以通配符开始，才能使用索引</p>
+<p>注意：前缀索引在排序 order by 和分组 group by 操作的时候无法使用。</p>
+<ul>
+<li>复合索引由左到右生效</li>
+</ul>
+<p>建立联合索引，要同时考虑列查询的频率和列的区分度。</p>
+<ul>
+<li>不要滥用索引，多余的索引会降低读写性能</li>
+</ul>
+<p>即使满足了上述原则，mysql 还是可能会弃用索引，因为有些查询即使使用索引，也会出现大量的随机 io，相对于从数据记录中的顺序 io 开销更大。</p>
+<h1 id="数据库准备"><a href="#数据库准备" class="headerlink" title="数据库准备"></a>数据库准备</h1><blockquote>
+<p>测试库文档介绍：<a href="https://dev.mysql.com/doc/sakila/en/" target="_blank" rel="noopener">mysql官方测试库——sakila-db</a></p>
+<p>测试库下载地址：<a href="https://downloads.mysql.com/docs/sakila-db.zip" target="_blank" rel="noopener">https://downloads.mysql.com/docs/sakila-db.zip</a></p>
+</blockquote>
+<ol>
+<li><p>下载并解压：</p>
+<pre><code>sakila-db
+| —— sakila-data.sql
+| —— sakila-schema.sql
+| —— sakila.mwb</code></pre></li>
+<li><p>导入数据库</p>
+<pre><code>shell&gt; mysql -u root -p     // 进入 mysql 客户端
+mysql&gt; SOURCE C:/temp/sakila-db/sakila-schema.sql;  // 导入数据库结构
+mysql&gt; SOURCE C:/temp/sakila-db/sakila-data.sql;    // 导入数据库数据</code></pre></li>
+</ol>
+<h1 id="MySQL-中能够使用索引的典型应用"><a href="#MySQL-中能够使用索引的典型应用" class="headerlink" title="MySQL 中能够使用索引的典型应用"></a>MySQL 中能够使用索引的典型应用</h1><h2 id="匹配全值（match-the-full-value）"><a href="#匹配全值（match-the-full-value）" class="headerlink" title="匹配全值（match the full value）"></a>匹配全值（match the full value）</h2><p>对索引中所有列都指定具体值，即是对索引中的所有列都有等值匹配的条件。<br>例如，租赁表 rental 中通过指定出租日期 rental_date + 库存编号 inventory_id + 客户编号 customer_id 的组合条件进行查询，从执行计划的 key 和 extra 两字段的值看到优化器选择了复合索引 idx_rental_date:</p>
+<pre><code>MySQL [sakila]&gt; explain select * from rental where rental_date=&#39;2005-05-25 17:22:10&#39; and inventory_id=373 and customer_id=343 \G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: rental
+   partitions: NULL
+         type: const
+possible_keys: rental_date,idx_fk_inventory_id,idx_fk_customer_id
+          key: rental_date
+      key_len: 10
+          ref: const,const,const
+         rows: 1
+     filtered: 100.00
+        Extra: NULL
+ 1 row in set, 1 warning (0.00 sec)</code></pre><p>explain 输出结果中字段 type 的值为 const，表示是常量；字段 key 的值为 rental_date, 表示优化器选择索引 rental_date 进行扫描。</p>
+<h2 id="匹配值的范围查询（match-a-range-of-values）"><a href="#匹配值的范围查询（match-a-range-of-values）" class="headerlink" title="匹配值的范围查询（match a range of values）"></a>匹配值的范围查询（match a range of values）</h2><p>对索引的值能够进行范围查找。<br>例如，检索租赁表 rental 中客户编号 customer_id 在指定范围内的记录：</p>
+<pre><code>MySQL [sakila]&gt; explain select * from rental where customer_id &gt;= 373 and customer_id &lt; 400 \G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: rental
+   partitions: NULL
+         type: range
+possible_keys: idx_fk_customer_id
+          key: idx_fk_customer_id
+      key_len: 2
+          ref: NULL
+         rows: 718
+     filtered: 100.00
+        Extra: Using index condition
+ 1 row in set, 1 warning (0.05 sec)</code></pre><p>类型 type 为 range 说明优化器选择范围查询，索引 key 为 idx_fk_customer_id 说明优化器选择索引 idx_fk_customer_id 来加速访问，注意到这个列子中 extra 列为 using index codition ,表示 mysql 使用了 ICP（using index condition） 来进一步优化查询。</p>
+<h2 id="匹配最左前缀（match-a-leftmost-prefix）"><a href="#匹配最左前缀（match-a-leftmost-prefix）" class="headerlink" title="匹配最左前缀（match a leftmost prefix）"></a>匹配最左前缀（match a leftmost prefix）</h2><p>仅仅使用索引中的最左边列进行查询，比如在 col1 + col2 + col3 字段上的联合索引能够被包含 col1、(col1 + col2)、（col1 + col2 + col3）的等值查询利用到，可是不能够被 col2、（col2、col3）的等值查询利用到。<br>最左匹配原则可以算是 MySQL 中 B-Tree 索引使用的首要原则。</p>
+<h2 id="仅仅对索引进行查询（index-only-query）"><a href="#仅仅对索引进行查询（index-only-query）" class="headerlink" title="仅仅对索引进行查询（index only query）"></a>仅仅对索引进行查询（index only query）</h2><p>当查询的列都在索引的字段中时，查询的效率更高，所以应该尽量避免使用 select *，需要哪些字段，就只查哪些字段。</p>
+<h2 id="匹配列前缀（match-a-column-prefix）"><a href="#匹配列前缀（match-a-column-prefix）" class="headerlink" title="匹配列前缀（match a column prefix）"></a>匹配列前缀（match a column prefix）</h2><p>仅仅使用索引中的第一列，并且只包含索引第一列的开头一部分进行查找。<br>例如，现在需要查询出标题 title 是以 AFRICAN 开头的电影信息，从执行计划能够清楚看到，idx_title_desc_part 索引被利用上了：</p>
+<pre><code>MySQL [sakila]&gt; create index idx_title_desc_part on film_text(title (10), description(20));
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MySQL [sakila]&gt; explain select title from film_text where title like &#39;AFRICAN%&#39;\G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: film_text
+   partitions: NULL
+         type: range
+possible_keys: idx_title_desc_part,idx_title_description
+          key: idx_title_desc_part
+      key_len: 32
+          ref: NULL
+         rows: 1
+     filtered: 100.00
+        Extra: Using where
+ 1 row in set, 1 warning (0.00 sec)</code></pre><p>extra 值为 using where 表示优化器需要通过索引回表查询数据。</p>
+<h2 id="能够实现索引匹配部分精确而其他部分进行范围匹配（match-one-part-exactly-and-match-a-range-on-another-part）"><a href="#能够实现索引匹配部分精确而其他部分进行范围匹配（match-one-part-exactly-and-match-a-range-on-another-part）" class="headerlink" title="能够实现索引匹配部分精确而其他部分进行范围匹配（match one part exactly and match a range on another part）"></a>能够实现索引匹配部分精确而其他部分进行范围匹配（match one part exactly and match a range on another part）</h2><p>例如，需要查询出租日期 rental_date 为指定日期且客户编号 customer_id 为指定范围的库存：</p>
+<pre><code>MySQL [sakila]&gt; explain select inventory_id from rental where rental_date=&#39;2006-02-14 15:16:03&#39; and customer_id &gt;= 300 and customer_id &lt;=400\G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: rental
+   partitions: NULL
+         type: ref
+possible_keys: rental_date,idx_fk_customer_id
+          key: rental_date
+      key_len: 5
+          ref: const
+         rows: 182
+     filtered: 16.85
+        Extra: Using where; Using index
+ 1 row in set, 1 warning (0.00 sec)</code></pre><h2 id="如果列名是索引，那么使用-column-name-is-null-就会使用索引。"><a href="#如果列名是索引，那么使用-column-name-is-null-就会使用索引。" class="headerlink" title="如果列名是索引，那么使用 column_name is null 就会使用索引。"></a>如果列名是索引，那么使用 column_name is null 就会使用索引。</h2><p>例如，查询支付表 payment 的租赁编号 rental_id 字段为空的记录就用到了索引：</p>
+<pre><code>MySQL [sakila]&gt; explain select * from payment where rental_id is null \G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: payment
+   partitions: NULL
+         type: ref
+possible_keys: fk_payment_rental
+          key: fk_payment_rental
+      key_len: 5
+          ref: const
+         rows: 5
+     filtered: 100.00
+        Extra: Using index condition
+ 1 row in set, 1 warning (0.00 sec)</code></pre><h1 id="存在索引但不能使用索引的典型场景"><a href="#存在索引但不能使用索引的典型场景" class="headerlink" title="存在索引但不能使用索引的典型场景"></a>存在索引但不能使用索引的典型场景</h1><p>有些时候虽然有索引，但是并不被优化器选择使用，下面举例几个不能使用索引的场景。</p>
+<h2 id="以-开头的-like-查询不能利用-B-Tree-索引，执行计划中-key-的值为-null-表示没有使用索引"><a href="#以-开头的-like-查询不能利用-B-Tree-索引，执行计划中-key-的值为-null-表示没有使用索引" class="headerlink" title="以 % 开头的 like 查询不能利用 B-Tree 索引，执行计划中 key 的值为 null 表示没有使用索引"></a>以 % 开头的 like 查询不能利用 B-Tree 索引，执行计划中 key 的值为 null 表示没有使用索引</h2><pre><code>MySQL [sakila]&gt; explain select * from actor where last_name like &quot;%NI%&quot;\G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: actor
+   partitions: NULL
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 200
+     filtered: 11.11
+        Extra: Using where
+ 1 row in set, 1 warning (0.00 sec)</code></pre><p>因为 B-Tree 索引的结构，所以以 % 开头的插叙很自然就没法利用索引了。一般推荐使用全文索引（Fulltext）来解决类似的全文检索的问题。或者考虑利用 innodb 的表都是聚簇表的特点，采取一种轻量级别的解决方式：一般情况下，索引都会比表小，扫描索引要比扫描表更快，而 Innodb 表上二级索引 idx_last_name 实际上存储字段 last_name 还有主键 actot_id，那么理想的访问应该是 <strong>首先扫描二级索引 idx_last_name 获得满足条件的 last_name like ‘%NI%’ 的主键 actor_id 列表，之后根据主键回表去检索记录，这样访问避开了全表扫描演员表 actor 产生的大量 IO 请求。</strong></p>
+<pre><code>MySQL [sakila]&gt; explain select * from (select actor_id from actor where last_name like &#39;%NI%&#39;) a , actor b where a.actor_id = b.actor_id \G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: actor
+   partitions: NULL
+         type: index
+possible_keys: PRIMARY
+          key: idx_actor_last_name
+      key_len: 137
+          ref: NULL
+         rows: 200
+     filtered: 11.11
+        Extra: Using where; Using index
+*************************** 2. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: b
+   partitions: NULL
+         type: eq_ref
+possible_keys: PRIMARY
+          key: PRIMARY
+      key_len: 2
+          ref: sakila.actor.actor_id
+         rows: 1
+     filtered: 100.00
+        Extra: NULL</code></pre><p>从执行计划中能够看出，extra 字段 using where；using index。理论上比全表扫描更快一下。</p>
+<h2 id="数据类型出现隐式转换的时候也不会使用索引"><a href="#数据类型出现隐式转换的时候也不会使用索引" class="headerlink" title="数据类型出现隐式转换的时候也不会使用索引"></a>数据类型出现隐式转换的时候也不会使用索引</h2><p>当列的类型是字符串，那么一定记得在 where 条件中把字符常量值用引号引起来，否则即便这个列上有索引，mysql 也不会用到，因为 MySQL 默认把输入的常量值进行转换以后才进行检索。</p>
+<p>例如，演员表 actor 中的姓氏字段 last_name 是字符型的，但是 sql 语句中的条件值 1 是一个数值型值，因此即便存在索引 idx_last_name, mysql 也不能正确的用上索引，而是继续进行全表扫描：</p>
+<pre><code>MySQL [sakila]&gt; explain select * from actor where last_name = 1 \G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: actor
+   partitions: NULL
+         type: ALL
+possible_keys: idx_actor_last_name
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 200
+     filtered: 10.00
+        Extra: Using where
+ 1 row in set, 3 warnings (0.00 sec)
+
+MySQL [sakila]&gt; explain select * from actor where last_name = &#39;1&#39;\G;
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: actor
+   partitions: NULL
+         type: ref
+possible_keys: idx_actor_last_name
+          key: idx_actor_last_name
+      key_len: 137
+          ref: const
+         rows: 1
+     filtered: 100.00
+        Extra: NULL
+ 1 row in set, 1 warning (0.00 sec)</code></pre><h2 id="复合索引的情况下，假如查询条件不包含索引列最左边部分，即不满足最左原则-leftmost，是不会使用复合索引的。"><a href="#复合索引的情况下，假如查询条件不包含索引列最左边部分，即不满足最左原则-leftmost，是不会使用复合索引的。" class="headerlink" title="复合索引的情况下，假如查询条件不包含索引列最左边部分，即不满足最左原则 leftmost，是不会使用复合索引的。"></a>复合索引的情况下，假如查询条件不包含索引列最左边部分，即不满足最左原则 leftmost，是不会使用复合索引的。</h2><h2 id="如果-MySQL-估计使用索引比全表扫描更慢，则不使用索引。"><a href="#如果-MySQL-估计使用索引比全表扫描更慢，则不使用索引。" class="headerlink" title="如果 MySQL 估计使用索引比全表扫描更慢，则不使用索引。"></a>如果 MySQL 估计使用索引比全表扫描更慢，则不使用索引。</h2><h2 id="用-or-分割开的条件，如果-or-前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到。"><a href="#用-or-分割开的条件，如果-or-前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到。" class="headerlink" title="用 or 分割开的条件，如果 or 前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到。"></a>用 or 分割开的条件，如果 or 前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到。</h2><h1 id="查看索引使用情况"><a href="#查看索引使用情况" class="headerlink" title="查看索引使用情况"></a>查看索引使用情况</h1><p>如果索引正在工作， Handler_read_key 的值将很高，这个值代表了一个行被索引值读的次数，很低的值表名增加索引得到的性能改善不高，因为索引并不经常使用。<br>Handler_read_rnd_next 的值高则意味着查询运行低效，并且应该建立索引补救。这个值的含义是在数据文件中读下一行的请求数。如果正在进行大量的表扫描，Handler_read_rnd_next 的值较高，则通常说明表索引不正确或写入的查询没有利用索引，具体如下。</p>
+<pre><code>MySQL [sakila]&gt; show status like &#39;Handler_read%&#39;;
++-----------------------+-------+
+| Variable_name         | Value |
++-----------------------+-------+
+| Handler_read_first    | 1     |
+| Handler_read_key      | 5     |
+| Handler_read_last     | 0     |
+| Handler_read_next     | 200   |
+| Handler_read_prev     | 0     |
+| Handler_read_rnd      | 0     |
+| Handler_read_rnd_next | 0     |
++-----------------------+-------+</code></pre><h1 id="使用索引的小技巧"><a href="#使用索引的小技巧" class="headerlink" title="使用索引的小技巧"></a>使用索引的小技巧</h1><h2 id="字符串字段权衡区分度与长度的技巧"><a href="#字符串字段权衡区分度与长度的技巧" class="headerlink" title="字符串字段权衡区分度与长度的技巧"></a>字符串字段权衡区分度与长度的技巧</h2><p>截取不同长度，测试区分度</p>
+<pre><code>// 这里假设截取6个字符长度计算区别度，直到区别度达到0.1，就可以把这个字段的这个长度作为索引了
+mysql&gt; select count(distinct left(varchar,6))/count(*) from table;
+
+//注意：设置前缀索引时指定的长度表示字节数，而对于非二进制类型(CHAR, VARCHAR, TEXT)字段而言的字段长度表示字符数，所
+//      以，在设置前缀索引前需要把计算好的字符数转化为字节数，常用字符集与字节的关系如下：
+// latin      单字节：1B
+// GBK        双字节：2B
+// UTF8       三字节：3B
+// UTF8mb4    四字节：4B     
+// myisam 表的索引大小默认为 1000字节，innodb 表的索引大小默认为 767 字节，可以在配置文件中修改 innodb_large_prefix 
+// 项的值增大 innodb 索引的大小，最大 3072 字节。</code></pre><p>区别度能达到 0.1，就可以。</p>
+<h2 id="左前缀不易区分的字段索引建立方法"><a href="#左前缀不易区分的字段索引建立方法" class="headerlink" title="左前缀不易区分的字段索引建立方法"></a>左前缀不易区分的字段索引建立方法</h2><p>这样的字段，左边有大量重复字符，比如 url 字段汇总的http://</p>
+<p>倒过来存储并建立索引<br>新增伪 hash 字段 把字符串转化为整型</p>
+<h2 id="索引覆盖"><a href="#索引覆盖" class="headerlink" title="索引覆盖"></a>索引覆盖</h2><p>概念：如果查询的列恰好是索引的一部分，那么查询只需要在索引文件上进行，不需要回行到磁盘，这种查询，速度极快，江湖人称——索引覆盖</p>
+<h2 id="延迟关联"><a href="#延迟关联" class="headerlink" title="延迟关联"></a>延迟关联</h2><p>在根据条件查询数据时，如果查询条件不能用的索引，可以先查出数据行的id，再根据id去取数据行。<br>eg.</p>
+<pre><code>//普通查询 没有用到索引
+select * from post where content like &quot;%新闻%&quot;;
+//延迟关联优化后 内层查询走content索引，取出id,在用join查所有行
+select a.* from post as a inner join (select id from post where content like &quot;%新闻%&quot;) as b on a.id=b.id; </code></pre><h2 id="索引排序"><a href="#索引排序" class="headerlink" title="索引排序　"></a>索引排序　</h2><p>排序的字段上加入索引，可以提高速度。</p>
+<h2 id="重复索引和冗余索引"><a href="#重复索引和冗余索引" class="headerlink" title="重复索引和冗余索引"></a>重复索引和冗余索引</h2><p>重复索引：在同一列或者相同顺序的几个列建立了多个索引，成为重复索引，没有任何意义，删掉<br>冗余索引：两个或多个索引所覆盖的列有重叠，比如对于列 m,n ，加索引 index m(m), index mn(m,n)，称为冗余索引。</p>
+<h2 id="索引碎片与维护"><a href="#索引碎片与维护" class="headerlink" title="索引碎片与维护"></a>索引碎片与维护</h2><p>在数据表长期的更改过程中，索引文件和数据文件都会产生空洞，形成碎片。修复表的过程十分耗费资源，可以用比较长的周期修复表。</p>
+<pre><code>//清理方法
+alert table xxx engine innodb; 
+//或
+optimize table xxx;</code></pre><h2 id="innodb-引擎的索引注意事项"><a href="#innodb-引擎的索引注意事项" class="headerlink" title="innodb 引擎的索引注意事项"></a>innodb 引擎的索引注意事项</h2><p>Innodb 表要尽量自己指定主键，如果有几个列都是唯一的，要选择最常作为访问条件的列作为主键，另外，Innodb 表的普通索引都会保存主键的键值，所以主键要尽可能选择较短的数据类型，可以有效的减少索引的磁盘占用，提高索引的缓存效果。</p>
+
+		
+		
+		<p class="post-info">
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-04-11 13:17
+		</p>
+	</div>
+</article>
+<div id="post-bottom-bar" class="post-bottom-bar">
+	<div class="bottom-bar-inner">
+		<div class="bottom-bar-items social-share left">
+			<span class="bottom-bar-item">Share : </span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/index.html" target="_blank" title="MySQL 索引（二）—— 使用实战" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/&text=MySQL 索引（二）—— 使用实战" target="_blank" title="MySQL 索引（二）—— 使用实战" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=MySQL 索引（二）—— 使用实战" target="_blank" title="MySQL 索引（二）—— 使用实战" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+		</div>
+		<div class="bottom-bar-items right">
+            
+            
+            <span class="bottom-bar-item"><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">→</a></span>
+            
+			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
+			<span class="bottom-bar-item"><a href="#top">↑</a></span>
+		</div>
+	</div>
+</div>
+
+
+<div class="related-post-lists">
+	<div class="post-lists">
+		<div class="post-lists-body">
+		
+			<div class="post-list-item">
+				<div class="post-list-item-container">
+					<div class="item-label">
+						<div class="item-title"><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">MySQL 索引（一） —— 原理详解</a></div>
+						<div class="item-meta clearfix">
+							<div class="item-meta-date" style="color: #5f5f5f;">2020-04-05</div>
+							<div class="item-meta-ico bg-ico-game" style="background: url(/images/bg-ico.png) no-repeat;background-size: 40px auto;"></div>
+                            <div class="item-meta-cat">
+                                
+                                <a href="/categories/MySQL/">MySQL</a>
+                                
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+
+
+<footer id="footer" class="footer bg-white">
+	<div class="footer-social">
+		<div class="footer-container clearfix">
+			<div class="social-list">
+                
+                    <a class="social" target="blank" href="https://github.com/mushiye">Github</a>
+                
+            </div>
+		</div>
+	</div>
+	<div class="footer-meta">
+		<div class="footer-container">
+			<div class="meta-item meta-copyright">
+				<div class="meta-copyright-info">
+                    <a href="http://yoursite.com" class="info-logo">
+                        
+                        木实
+                        
+                    </a>
+					<div class="info-text">
+                        <!-- <p id="chakhsu"></p>
+                    	<p>Theme is <a href="https://github.com/cccyb/hexo-theme-pinghsu" target="_blank">Pinghsu</a> by <a href="http://yoursite.com" target="_blank">曾果</a></p>
+						<p>Powered by <a href="https://hexo.io/" target="_blank" rel="nofollow">hexo</a></p> -->
+                        <p style="margin-top: 10px">站点总字数：8.7k</p>
+                        <!-- 
+                        <p><span id="busuanzi_container_site_pv" style='display:none'>本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</span></p>
+                        <p><span id="busuanzi_container_site_uv" style='display:none'>本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span></p> -->
+                        
+                        
+                        <p style="margin-top: 10px">&copy; 2020 - 2020 <a href="http://yoursite.com">木实</a></p>
+                    </div>
+				</div>
+            </div>
+            
+            <div class="meta-item meta-posts">
+                <h3 class="meta-title">最近文章</h3>
+                
+                <li><a href="/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/">MySQL 索引（二）—— 使用实战</a></li>
+                
+                <li><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">MySQL 索引（一） —— 原理详解</a></li>
+                
+                <li><a href="/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/">Vue 中使用 ECharts 在 Element 弹窗中画图</a></li>
+                
+            </div>
+            
+            
+		</div>
+	</div>
+</footer>
+
+
+<div id="directory-content" class="directory-content">
+    <div id="directory"></div>
+</div>
+<script>
+var postDirectoryBuild = function() {
+    var postChildren = function children(childNodes, reg) {
+        var result = [],
+            isReg = typeof reg === 'object',
+            isStr = typeof reg === 'string',
+            node, i, len;
+        for (i = 0, len = childNodes.length; i < len; i++) {
+            node = childNodes[i];
+            if ((node.nodeType === 1 || node.nodeType === 9) &&
+                (!reg ||
+                isReg && reg.test(node.tagName.toLowerCase()) ||
+                isStr && node.tagName.toLowerCase() === reg)) {
+                result.push(node);
+            }
+        }
+        return result;
+    },
+    createPostDirectory = function(article, directory, isDirNum) {
+        var contentArr = [],
+            titleId = [],
+            levelArr, root, level,
+            currentList, list, li, link, i, len;
+        levelArr = (function(article, contentArr, titleId) {
+            var titleElem = postChildren(article.childNodes, /^h\d$/),
+                levelArr = [],
+                lastNum = 1,
+                lastRevNum = 1,
+                count = 0,
+                guid = 1,
+                id = 'directory' + (Math.random() + '').replace(/\D/, ''),
+                lastRevNum, num, elem;
+            while (titleElem.length) {
+                elem = titleElem.shift();
+                contentArr.push(elem.innerHTML);
+                num = +elem.tagName.match(/\d/)[0];
+                if (num > lastNum) {
+                    levelArr.push(1);
+                    lastRevNum += 1;
+                } else if (num === lastRevNum ||
+                    num > lastRevNum && num <= lastNum) {
+                    levelArr.push(0);
+                    lastRevNum = lastRevNum;
+                } else if (num < lastRevNum) {
+                    levelArr.push(num - lastRevNum);
+                    lastRevNum = num;
+                }
+                count += levelArr[levelArr.length - 1];
+                lastNum = num;
+                elem.id = id + guid++;
+                titleId.push(elem.id);
+            }
+            if (count !== 0 && levelArr[0] === 1) levelArr[0] = 0;
+            return levelArr;
+        })(article, contentArr, titleId);
+        currentList = root = document.createElement('ul');
+        dirNum = [0];
+        for (i = 0, len = levelArr.length; i < len; i++) {
+            level = levelArr[i];
+            if (level === 1) {
+                list = document.createElement('ul');
+                if (!currentList.lastElementChild) {
+                    currentList.appendChild(document.createElement('li'));
+                }
+                currentList.lastElementChild.appendChild(list);
+                currentList = list;
+                dirNum.push(0);
+            } else if (level < 0) {
+                level *= 2;
+                while (level++) {
+                    if (level % 2) dirNum.pop();
+                    currentList = currentList.parentNode;
+                }
+            }
+            dirNum[dirNum.length - 1]++;
+            li = document.createElement('li');
+            link = document.createElement('a');
+            link.href = '#' + titleId[i];
+            link.innerHTML = !isDirNum ? contentArr[i] :
+                dirNum.join('.') + ' ' + contentArr[i] ;
+            li.appendChild(link);
+            currentList.appendChild(li);
+        }
+        directory.appendChild(root);
+    };
+    createPostDirectory(document.getElementById('post-content'),document.getElementById('directory'), true);
+};
+postDirectoryBuild();
+</script>
+
+<script src="//cdn.bootcss.com/headroom/0.9.1/headroom.min.js"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+
+<script>
+
+var postDirectory = new Headroom(document.getElementById("directory-content"), {
+    tolerance: 0,
+    
+    offset : 280,
+    
+    classes: {
+        initial: "initial",
+        pinned: "pinned",
+        unpinned: "unpinned"
+    }
+});
+postDirectory.init();
+
+
+var postSharer = new Headroom(document.getElementById("post-bottom-bar"), {
+    tolerance: 0,
+    offset : 70,
+    classes: {
+        initial: "animated",
+        pinned: "pinned",
+        unpinned: "unpinned"
+    }
+});
+postSharer.init();
+
+var header = new Headroom(document.getElementById("header"), {
+    tolerance: 0,
+    offset : 70,
+    classes: {
+      initial: "animated",
+      pinned: "slideDown",
+      unpinned: "slideUp"
+    }
+});
+header.init();
+
+hljs.initHighlightingOnLoad();
+ 
+
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
+
+</script>
+<script>
+var words = 'Hexo,Theme,Pinghsu'.split(',').map(item => item.trim());
+var chakhsu = function(r){function t(){return b[Math.floor(Math.random()*b.length)]}function e(){return String.fromCharCode(94*Math.random()+33)}function n(r){for(var n=document.createDocumentFragment(),i=0;r>i;i++){var l=document.createElement("span");l.textContent=e(),l.style.color=t(),n.appendChild(l)}return n}function i(){var t=o[c.skillI];c.step?c.step--:(c.step=g,c.prefixP<l.length?(c.prefixP>=0&&(c.text+=l[c.prefixP]),c.prefixP++):"forward"===c.direction?c.skillP<t.length?(c.text+=t[c.skillP],c.skillP++):c.delay?c.delay--:(c.direction="backward",c.delay=a):c.skillP>0?(c.text=c.text.slice(0,-1),c.skillP--):(c.skillI=(c.skillI+1)%o.length,c.direction="forward")),r.textContent=c.text,r.appendChild(n(c.prefixP<l.length?Math.min(s,s+c.prefixP):Math.min(s,t.length-c.skillP))),setTimeout(i,d)}var l="I work with ",o=words.map(function(r){return r+"."}),a=2,g=1,s=5,d=75,b=["rgb(110,64,170)","rgb(150,61,179)","rgb(191,60,175)","rgb(228,65,157)","rgb(254,75,131)","rgb(255,94,99)","rgb(255,120,71)","rgb(251,150,51)","rgb(226,183,47)","rgb(198,214,60)","rgb(175,240,91)","rgb(127,246,88)","rgb(82,246,103)","rgb(48,239,130)","rgb(29,223,163)","rgb(26,199,194)","rgb(35,171,216)","rgb(54,140,225)","rgb(76,110,219)","rgb(96,84,200)"],c={text:"",prefixP:-s,skillI:0,skillP:0,direction:"forward",delay:a,step:g};i()};chakhsu(document.getElementById('chakhsu')); if ('addEventListener' in document) { document.addEventListener('DOMContentLoaded', function() { FastClick.attach(document.body); }, false); }
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    showProcessingMessages: false,
+    messageStyle: "none",
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+        ignoreClass:"comment-content"
+    },
+    "HTML-CSS": {
+        availableFonts: ["STIX","TeX"],
+        showMathMenu: false
+    }
+});
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script>
+
+
+
+</script>
+
+</body>
+</html>
