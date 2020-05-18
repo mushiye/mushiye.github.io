@@ -23,7 +23,7 @@
     
     <title>
     
-        Vue 中使用 ECharts 在 Element 弹窗中画图 - 木实
+        容错、高可用和灾备 - 木实
     
     </title>
     <meta name="keywords" content="" />
@@ -90,31 +90,31 @@
 
 
 <div class="post-header-thumb">
-	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/10.jpg);"></div>
+	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/2.jpg);"></div>
 	<div class="post-header-thumb-cover">
 		<div class="post-header-thumb-container">
 			<div class="post-header-thumb-title">
-				Vue 中使用 ECharts 在 Element 弹窗中画图
+				容错、高可用和灾备
 			</div>
 			<div class="post-header-thumb-meta">
 				
-				<time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time>
-				<a href="/categories/ECharts/">ECharts</a>
+				<time datetime="1589815929" itemprop="datePublished">发布于 2020-05-18 in </time>
+				<a href="/categories/%E9%9B%86%E7%BE%A4/">集群</a>
 				
 				<div class="post-header-thumb-meta" style="font-size: 13px;">
-					<span class="post-count">本文字数：524 字</span>
+					<span class="post-count">本文字数：520 字</span>
 					<span>|</span>
-					<span class="post-count">阅读时长 ≈ 2 分钟</span>
+					<span class="post-count">阅读时长 ≈ 1 分钟</span>
 				</div>
 			</div>
 			<div class="post-tags">
 				
 				
-                <a href="/tags/Vue/">Vue</a>
+                <a href="/tags/%E5%AE%B9%E9%94%99/">容错</a>
                 
-                <a href="/tags/ECharts/">ECharts</a>
+                <a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">高可用</a>
                 
-                <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+                <a href="/tags/%E7%81%BE%E5%A4%87/">灾备</a>
                 
 				
 			</div>
@@ -126,16 +126,16 @@
 <article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
 	<div class="post-header">
 		<h1 class="post-title" itemprop="name headline">
-			Vue 中使用 ECharts 在 Element 弹窗中画图
+			容错、高可用和灾备
 		</h1>
 		<div class="post-data">
 			
-            <time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time><a href="/categories/ECharts/">ECharts</a>
+            <time datetime="1589815929" itemprop="datePublished">发布于 2020-05-18 in </time><a href="/categories/%E9%9B%86%E7%BE%A4/">集群</a>
 			
 			<div style="font-size: 13px;">
-				<span class="post-count">本文字数：524 字</span>
+				<span class="post-count">本文字数：520 字</span>
 				<span>|</span>
-				<span class="post-count">阅读时长 ≈ 2 分钟</span>
+				<span class="post-count">阅读时长 ≈ 1 分钟</span>
 			</div>
 		</div>
 	</div>
@@ -143,108 +143,34 @@
 		<p class="post-tags">
             
             
-            <a href="/tags/Vue/">Vue</a>
+            <a href="/tags/%E5%AE%B9%E9%94%99/">容错</a>
             
-            <a href="/tags/ECharts/">ECharts</a>
+            <a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">高可用</a>
             
-            <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+            <a href="/tags/%E7%81%BE%E5%A4%87/">灾备</a>
             
             
         </p>
-		<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在页面中点击一个按钮，弹出一个 Element <a href="https://element.eleme.cn/#/zh-CN/component/dialog" target="_blank" rel="noopener">对话框</a>，弹窗里边使用 ECharts 画图；然而画图失败。</p>
-<h2 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h2><p>根据错误信息，推测可能是画图前 DOM 中未渲染出 ECharts 对象。</p>
-<p>等弹窗出来后，才渲染到 DOM 中。所以 ECharts 在初始化时不能获取到 DOM 中的对象来绘图。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>在 DOM 更新渲染结束之后，再执行 ECharts 绘图函数。</p>
-<p>使用 Vue 中的 <a href="https://cn.vuejs.org/v2/api/#Vue-nextTick" target="_blank" rel="noopener">nextTick</a> 来解决；将画图函数放入 nextTick 中来调用。</p>
-<blockquote>
-<h2 id="Vue-nextTick-callback-context"><a href="#Vue-nextTick-callback-context" class="headerlink" title="Vue.nextTick( [callback, context] )"></a>Vue.nextTick( [callback, context] )</h2><ul>
-<li>参数：<ul>
-<li>{Function} [callback]</li>
-<li>{Object} [context]</li>
+		<h2 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h2><p>容错（fault tolerance）指的是， 发生故障时，系统还能继续运行。</p>
+<p>飞机有四个引擎，如果一个引擎坏了，剩下三个引擎，还能继续飞，这就是”容错”。同样的，汽车的一个轮子扎破了，剩下三个轮子，也还是勉强能行驶。</p>
+<p>容错的目的是，发生故障时，系统的运行水平可能有所下降，但是依然可用，不会完全失败。</p>
+<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p>高可用（high availability）指的是， 系统能够比正常时间更久地保持一定的运行水平。</p>
+<p>汽车的备胎就是一个高可用的例子。如果没有备胎，轮胎坏了，车就开不久了。备胎延长了汽车行驶的可用时间。</p>
+<p>注意，高可用不是指系统不中断（那是容错能力），而是指一旦中断能够快速恢复，即中断必须是短暂的。如果需要很长时间才能恢复可用性，就不叫高可用了。上面例子中，更换备胎就必须停车，但只要装上去，就能回到行驶状态。</p>
+<h2 id="灾备"><a href="#灾备" class="headerlink" title="灾备"></a>灾备</h2><p>灾备（又称灾难恢复，disaster recovery）指的是， 发生灾难时恢复业务的能力。</p>
+<p>飞机是你的 IT 基础设施，飞行员是你的业务，飞行员弹射装置就是灾备措施。一旦飞机即将坠毁，你的基础设施就要没了，灾备可以让你的业务幸存下来。</p>
+<p>灾备的目的就是，保存系统的核心部分。一个好的灾备方案，就是从失败的基础设施中获取企业最宝贵的数据，然后在新的基础设施上恢复它们。注意，灾备不是为了挽救基础设置，而是为了挽救业务。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面三个方面可以结合起来，设计一个可靠的系统。</p>
+<ul>
+<li>容错：发生故障时，如何让系统继续运行。</li>
+<li>高可用：系统中断时，如何尽快恢复。</li>
+<li>灾备：系统毁灭时，如何抢救数据。</li>
 </ul>
-</li>
-<li>用法：<br>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。<pre><code>// 修改数据
-vm.msg = &#39;Hello&#39;
-// DOM 还没有更新
-Vue.nextTick(function () {
-// DOM 更新了
-})
-// 作为一个 Promise 使用 (2.1.0 起新增，详见接下来的提示)
-Vue.nextTick()
-.then(function () {
-  // DOM 更新了
-})</code></pre></li>
-</ul>
-</blockquote>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>&lt;template&gt;
-&lt;el-button type=&quot;text&quot; @click=&quot;open&quot;&gt;点击打开 Dialog 并用 ECharts 绘图&lt;/el-button&gt;
 
-&lt;el-dialog
-  title=&quot;提示&quot;
-  :visible.sync=&quot;centerDialogVisible&quot;
-  width=&quot;30%&quot;
-  center&gt;
-  &lt;!-- 为 ECharts 准备一个具备大小（宽高）的 DOM --&gt;
-  &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;
-  &lt;span slot=&quot;footer&quot; class=&quot;dialog-footer&quot;&gt;
-    &lt;el-button @click=&quot;centerDialogVisible = false&quot;&gt;取 消&lt;/el-button&gt;
-    &lt;el-button type=&quot;primary&quot; @click=&quot;centerDialogVisible = false&quot;&gt;确 定&lt;/el-button&gt;
-  &lt;/span&gt;
-&lt;/el-dialog&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import echarts from &#39;echarts&#39;;
-export default {
-  data() {
-    return {
-      centerDialogVisible: false
-    };
-  }
-  methods: {
-    // 打开对话框
-    open() {
-      this.centerDialogVisible = true;
-      this.$nextTick(
-        () =&gt; {
-          this.drawChart();
-        }
-      )
-    },
-    // 绘图
-    drawChart() {
-      var myChart = echarts.init(document.getElementById(&#39;main&#39;));
-
-      // 指定图表的配置项和数据
-      var option = {
-        title: {
-          text: &#39;ECharts 入门示例&#39;
-        },
-        tooltip: {},
-        legend: {
-          data:[&#39;销量&#39;]
-        },
-        xAxis: {
-          data: [&quot;衬衫&quot;,&quot;羊毛衫&quot;,&quot;雪纺衫&quot;,&quot;裤子&quot;,&quot;高跟鞋&quot;,&quot;袜子&quot;]
-        },
-        yAxis: {},
-        series: [{
-          name: &#39;销量&#39;,
-          type: &#39;bar&#39;,
-          data: [5, 20, 36, 10, 10, 20]
-        }]
-      };
-
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-    }
-  }
-};
-&lt;/script&gt;</code></pre>
 		
 		
 		<p class="post-info">
-			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-04-04 20:46
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-05-18 23:34
 		</p>
 	</div>
 </article>
@@ -252,15 +178,15 @@ export default {
 	<div class="bottom-bar-inner">
 		<div class="bottom-bar-items social-share left">
 			<span class="bottom-bar-item">Share : </span>
-			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">facebook</a></span>
-			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/&text=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Twitter</a></span>
-			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Weibo</a></span>
-			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/18/5%20-%20%E5%AE%B9%E9%94%99%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E5%92%8C%E7%81%BE%E5%A4%87/index.html" target="_blank" title="容错、高可用和灾备" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/05/18/5%20-%20%E5%AE%B9%E9%94%99%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E5%92%8C%E7%81%BE%E5%A4%87/&text=容错、高可用和灾备" target="_blank" title="容错、高可用和灾备" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=容错、高可用和灾备" target="_blank" title="容错、高可用和灾备" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/05/18/5%20-%20%E5%AE%B9%E9%94%99%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E5%92%8C%E7%81%BE%E5%A4%87/index.html" target="_blank" rel="nofollow">QRcode</a></span>
 		</div>
 		<div class="bottom-bar-items right">
             
-            <span class="bottom-bar-item"><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">←</a></span>
             
+            <span class="bottom-bar-item"><a href="/2020/05/18/4%20-%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">→</a></span>
             
 			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
 			<span class="bottom-bar-item"><a href="#top">↑</a></span>

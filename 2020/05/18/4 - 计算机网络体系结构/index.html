@@ -23,7 +23,7 @@
     
     <title>
     
-        Vue 中使用 ECharts 在 Element 弹窗中画图 - 木实
+        计算机网络体系结构 - 木实
     
     </title>
     <meta name="keywords" content="" />
@@ -90,19 +90,19 @@
 
 
 <div class="post-header-thumb">
-	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/10.jpg);"></div>
+	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/8.jpg);"></div>
 	<div class="post-header-thumb-cover">
 		<div class="post-header-thumb-container">
 			<div class="post-header-thumb-title">
-				Vue 中使用 ECharts 在 Element 弹窗中画图
+				计算机网络体系结构
 			</div>
 			<div class="post-header-thumb-meta">
 				
-				<time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time>
-				<a href="/categories/ECharts/">ECharts</a>
+				<time datetime="1589815821" itemprop="datePublished">发布于 2020-05-18 in </time>
+				<a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
 				
 				<div class="post-header-thumb-meta" style="font-size: 13px;">
-					<span class="post-count">本文字数：524 字</span>
+					<span class="post-count">本文字数：766 字</span>
 					<span>|</span>
 					<span class="post-count">阅读时长 ≈ 2 分钟</span>
 				</div>
@@ -110,11 +110,7 @@
 			<div class="post-tags">
 				
 				
-                <a href="/tags/Vue/">Vue</a>
-                
-                <a href="/tags/ECharts/">ECharts</a>
-                
-                <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+                <a href="/tags/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">网络模型</a>
                 
 				
 			</div>
@@ -126,14 +122,14 @@
 <article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
 	<div class="post-header">
 		<h1 class="post-title" itemprop="name headline">
-			Vue 中使用 ECharts 在 Element 弹窗中画图
+			计算机网络体系结构
 		</h1>
 		<div class="post-data">
 			
-            <time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time><a href="/categories/ECharts/">ECharts</a>
+            <time datetime="1589815821" itemprop="datePublished">发布于 2020-05-18 in </time><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/">计算机</a>
 			
 			<div style="font-size: 13px;">
-				<span class="post-count">本文字数：524 字</span>
+				<span class="post-count">本文字数：766 字</span>
 				<span>|</span>
 				<span class="post-count">阅读时长 ≈ 2 分钟</span>
 			</div>
@@ -143,108 +139,41 @@
 		<p class="post-tags">
             
             
-            <a href="/tags/Vue/">Vue</a>
-            
-            <a href="/tags/ECharts/">ECharts</a>
-            
-            <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">网络模型</a>
             
             
         </p>
-		<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在页面中点击一个按钮，弹出一个 Element <a href="https://element.eleme.cn/#/zh-CN/component/dialog" target="_blank" rel="noopener">对话框</a>，弹窗里边使用 ECharts 画图；然而画图失败。</p>
-<h2 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h2><p>根据错误信息，推测可能是画图前 DOM 中未渲染出 ECharts 对象。</p>
-<p>等弹窗出来后，才渲染到 DOM 中。所以 ECharts 在初始化时不能获取到 DOM 中的对象来绘图。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>在 DOM 更新渲染结束之后，再执行 ECharts 绘图函数。</p>
-<p>使用 Vue 中的 <a href="https://cn.vuejs.org/v2/api/#Vue-nextTick" target="_blank" rel="noopener">nextTick</a> 来解决；将画图函数放入 nextTick 中来调用。</p>
-<blockquote>
-<h2 id="Vue-nextTick-callback-context"><a href="#Vue-nextTick-callback-context" class="headerlink" title="Vue.nextTick( [callback, context] )"></a>Vue.nextTick( [callback, context] )</h2><ul>
-<li>参数：<ul>
-<li>{Function} [callback]</li>
-<li>{Object} [context]</li>
+		<pre><code>OSI         五层模型     TCP/IP
+
+应用层
+表示层      应用层        应用层
+会话层
+传输层      传输层        运输层
+网络层      网络层        网际层
+数据链路层  数据链路层    网络接口层
+物理层      物理层</code></pre><p>OSI（Open System Interconnect），即开放式系统互联。 一般都叫 OSI 参考模型，是 ISO 组织在 1985 年研究的网络互联模型。</p>
+<h2 id="1-五层协议"><a href="#1-五层协议" class="headerlink" title="1. 五层协议"></a>1. 五层协议</h2><ul>
+<li><strong>应用层</strong>：为特定应用程序提供数据传输服务。例如 HTTP、DNS 等协议。数据单位为报文。</li>
+<li><strong>传输层</strong>：为进程提供通用数据传输服务。由于应用层协议很多，定义通用的传输层协议就可以支持不断增多的应用层协议。传输层包括两种协议：传输控制协议 TCP，提供面向连接、可靠的数据传输服务，数据单位为报文段；用户数据报协议 UDP，提供无连接、尽最大努力的数据传输服务，数据单位为瀛湖数据报。TCP 主要提供完整性服务，UDP 主要提高及时性服务。</li>
+<li><strong>网络层</strong>：为主机提供数据传输服务。而传输层协议是为主机中的进程提供数据传输服务。网络层把传输层传递下来的报文段或者用户数据包封装成分组。</li>
+<li><strong>数据链路层</strong>：网络层针对的还是主机之间的数据传输服务，而主机之间可以有很多链路，链路层协议就是为同一链路的主机提供数据传输服务。数据链路层把网络层传下来的分组封装成帧。</li>
+<li><strong>物理层</strong>：考虑的是怎样在传输媒体上传输数据比特流，而不是指具体的传输媒体。物理层的作用是尽可能屏蔽传输媒体和通信手段的差异，使数据链路层感觉不到这些差异。</li>
 </ul>
-</li>
-<li>用法：<br>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。<pre><code>// 修改数据
-vm.msg = &#39;Hello&#39;
-// DOM 还没有更新
-Vue.nextTick(function () {
-// DOM 更新了
-})
-// 作为一个 Promise 使用 (2.1.0 起新增，详见接下来的提示)
-Vue.nextTick()
-.then(function () {
-  // DOM 更新了
-})</code></pre></li>
+<h2 id="2-OSI"><a href="#2-OSI" class="headerlink" title="2. OSI"></a>2. OSI</h2><p>其中表示层和会话层用途如下：</p>
+<ul>
+<li><strong>表示层</strong> ：数据压缩、加密以及数据描述，这使得应用程序不必关心在各台主机中数据内部格式不同的问题。</li>
+<li><strong>会话层</strong> ：建立及管理会话。</li>
 </ul>
-</blockquote>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>&lt;template&gt;
-&lt;el-button type=&quot;text&quot; @click=&quot;open&quot;&gt;点击打开 Dialog 并用 ECharts 绘图&lt;/el-button&gt;
+<p>五层协议没有表示层和会话层，而是将这些功能留给应用程序开发者处理。</p>
+<h2 id="3-TCP-IP"><a href="#3-TCP-IP" class="headerlink" title="3. TCP/IP"></a>3. TCP/IP</h2><p>它只有四层，相当于五层协议中数据链路层和物理层合并为网络接口层。</p>
+<p>TCP/IP 体系结构不严格遵循 OSI 分层概念，应用层可能会直接使用 IP 层或者网络接口层。</p>
+<h2 id="4-数据在各层之间的传递过程"><a href="#4-数据在各层之间的传递过程" class="headerlink" title="4. 数据在各层之间的传递过程"></a>4. 数据在各层之间的传递过程</h2><p>在向下的过程中，需要添加下层协议所需要的首部或者尾部，而在向上的过程中不断拆开首部和尾部。</p>
+<p>路由器只有下面三层协议，因为路由器位于网络核心中，不需要为进程或者应用程序提供服务，因此也就不需要传输层和应用层。</p>
 
-&lt;el-dialog
-  title=&quot;提示&quot;
-  :visible.sync=&quot;centerDialogVisible&quot;
-  width=&quot;30%&quot;
-  center&gt;
-  &lt;!-- 为 ECharts 准备一个具备大小（宽高）的 DOM --&gt;
-  &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;
-  &lt;span slot=&quot;footer&quot; class=&quot;dialog-footer&quot;&gt;
-    &lt;el-button @click=&quot;centerDialogVisible = false&quot;&gt;取 消&lt;/el-button&gt;
-    &lt;el-button type=&quot;primary&quot; @click=&quot;centerDialogVisible = false&quot;&gt;确 定&lt;/el-button&gt;
-  &lt;/span&gt;
-&lt;/el-dialog&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import echarts from &#39;echarts&#39;;
-export default {
-  data() {
-    return {
-      centerDialogVisible: false
-    };
-  }
-  methods: {
-    // 打开对话框
-    open() {
-      this.centerDialogVisible = true;
-      this.$nextTick(
-        () =&gt; {
-          this.drawChart();
-        }
-      )
-    },
-    // 绘图
-    drawChart() {
-      var myChart = echarts.init(document.getElementById(&#39;main&#39;));
-
-      // 指定图表的配置项和数据
-      var option = {
-        title: {
-          text: &#39;ECharts 入门示例&#39;
-        },
-        tooltip: {},
-        legend: {
-          data:[&#39;销量&#39;]
-        },
-        xAxis: {
-          data: [&quot;衬衫&quot;,&quot;羊毛衫&quot;,&quot;雪纺衫&quot;,&quot;裤子&quot;,&quot;高跟鞋&quot;,&quot;袜子&quot;]
-        },
-        yAxis: {},
-        series: [{
-          name: &#39;销量&#39;,
-          type: &#39;bar&#39;,
-          data: [5, 20, 36, 10, 10, 20]
-        }]
-      };
-
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-    }
-  }
-};
-&lt;/script&gt;</code></pre>
 		
 		
 		<p class="post-info">
-			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-04-04 20:46
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-05-18 23:31
 		</p>
 	</div>
 </article>
@@ -252,15 +181,17 @@ export default {
 	<div class="bottom-bar-inner">
 		<div class="bottom-bar-items social-share left">
 			<span class="bottom-bar-item">Share : </span>
-			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">facebook</a></span>
-			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/&text=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Twitter</a></span>
-			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Weibo</a></span>
-			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/18/4%20-%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/index.html" target="_blank" title="计算机网络体系结构" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/05/18/4%20-%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/&text=计算机网络体系结构" target="_blank" title="计算机网络体系结构" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=计算机网络体系结构" target="_blank" title="计算机网络体系结构" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/05/18/4%20-%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/index.html" target="_blank" rel="nofollow">QRcode</a></span>
 		</div>
 		<div class="bottom-bar-items right">
             
-            <span class="bottom-bar-item"><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">←</a></span>
+            <span class="bottom-bar-item"><a href="/2020/05/18/5%20-%20%E5%AE%B9%E9%94%99%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E5%92%8C%E7%81%BE%E5%A4%87/">←</a></span>
             
+            
+            <span class="bottom-bar-item"><a href="/2020/04/10/3%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8/">→</a></span>
             
 			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
 			<span class="bottom-bar-item"><a href="#top">↑</a></span>
