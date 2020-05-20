@@ -23,7 +23,7 @@
     
     <title>
     
-        Vue 中使用 ECharts 在 Element 弹窗中画图 - 木实
+        【python】给图片添加水印 - 木实
     
     </title>
     <meta name="keywords" content="python vue mysql redis linux docker" />
@@ -94,15 +94,15 @@
 	<div class="post-header-thumb-cover">
 		<div class="post-header-thumb-container">
 			<div class="post-header-thumb-title">
-				Vue 中使用 ECharts 在 Element 弹窗中画图
+				【python】给图片添加水印
 			</div>
 			<div class="post-header-thumb-meta">
 				
-				<time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time>
-				<a href="/categories/ECharts/">ECharts</a>
+				<time datetime="1589933630" itemprop="datePublished">发布于 2020-05-20 in </time>
+				<a href="/categories/python/">python</a>
 				
 				<div class="post-header-thumb-meta" style="font-size: 13px;">
-					<span class="post-count">本文字数：524 字</span>
+					<span class="post-count">本文字数：516 字</span>
 					<span>|</span>
 					<span class="post-count">阅读时长 ≈ 2 分钟</span>
 				</div>
@@ -110,11 +110,7 @@
 			<div class="post-tags">
 				
 				
-                <a href="/tags/Vue/">Vue</a>
-                
-                <a href="/tags/ECharts/">ECharts</a>
-                
-                <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+                <a href="/tags/%E6%B0%B4%E5%8D%B0/">水印</a>
                 
 				
 			</div>
@@ -126,14 +122,14 @@
 <article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
 	<div class="post-header">
 		<h1 class="post-title" itemprop="name headline">
-			Vue 中使用 ECharts 在 Element 弹窗中画图
+			【python】给图片添加水印
 		</h1>
 		<div class="post-data">
 			
-            <time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time><a href="/categories/ECharts/">ECharts</a>
+            <time datetime="1589933630" itemprop="datePublished">发布于 2020-05-20 in </time><a href="/categories/python/">python</a>
 			
 			<div style="font-size: 13px;">
-				<span class="post-count">本文字数：524 字</span>
+				<span class="post-count">本文字数：516 字</span>
 				<span>|</span>
 				<span class="post-count">阅读时长 ≈ 2 分钟</span>
 			</div>
@@ -143,108 +139,99 @@
 		<p class="post-tags">
             
             
-            <a href="/tags/Vue/">Vue</a>
-            
-            <a href="/tags/ECharts/">ECharts</a>
-            
-            <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+            <a href="/tags/%E6%B0%B4%E5%8D%B0/">水印</a>
             
             
         </p>
-		<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在页面中点击一个按钮，弹出一个 Element <a href="https://element.eleme.cn/#/zh-CN/component/dialog" target="_blank" rel="noopener">对话框</a>，弹窗里边使用 ECharts 画图；然而画图失败。</p>
-<h2 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h2><p>根据错误信息，推测可能是画图前 DOM 中未渲染出 ECharts 对象。</p>
-<p>等弹窗出来后，才渲染到 DOM 中。所以 ECharts 在初始化时不能获取到 DOM 中的对象来绘图。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>在 DOM 更新渲染结束之后，再执行 ECharts 绘图函数。</p>
-<p>使用 Vue 中的 <a href="https://cn.vuejs.org/v2/api/#Vue-nextTick" target="_blank" rel="noopener">nextTick</a> 来解决；将画图函数放入 nextTick 中来调用。</p>
-<blockquote>
-<h2 id="Vue-nextTick-callback-context"><a href="#Vue-nextTick-callback-context" class="headerlink" title="Vue.nextTick( [callback, context] )"></a>Vue.nextTick( [callback, context] )</h2><ul>
-<li>参数：<ul>
-<li>{Function} [callback]</li>
-<li>{Object} [context]</li>
-</ul>
-</li>
-<li>用法：<br>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。<pre><code>// 修改数据
-vm.msg = &#39;Hello&#39;
-// DOM 还没有更新
-Vue.nextTick(function () {
-// DOM 更新了
-})
-// 作为一个 Promise 使用 (2.1.0 起新增，详见接下来的提示)
-Vue.nextTick()
-.then(function () {
-  // DOM 更新了
-})</code></pre></li>
-</ul>
-</blockquote>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>&lt;template&gt;
-&lt;el-button type=&quot;text&quot; @click=&quot;open&quot;&gt;点击打开 Dialog 并用 ECharts 绘图&lt;/el-button&gt;
+		<p>给图片添加水印的方式有两种：一、添加文字水印 二、添加图片水印</p>
+<h2 id="添加文字水印"><a href="#添加文字水印" class="headerlink" title="添加文字水印"></a>添加文字水印</h2><pre><code>from PIL import Image, ImageDraw, ImageFont
 
-&lt;el-dialog
-  title=&quot;提示&quot;
-  :visible.sync=&quot;centerDialogVisible&quot;
-  width=&quot;30%&quot;
-  center&gt;
-  &lt;!-- 为 ECharts 准备一个具备大小（宽高）的 DOM --&gt;
-  &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;
-  &lt;span slot=&quot;footer&quot; class=&quot;dialog-footer&quot;&gt;
-    &lt;el-button @click=&quot;centerDialogVisible = false&quot;&gt;取 消&lt;/el-button&gt;
-    &lt;el-button type=&quot;primary&quot; @click=&quot;centerDialogVisible = false&quot;&gt;确 定&lt;/el-button&gt;
-  &lt;/span&gt;
-&lt;/el-dialog&gt;
-&lt;/template&gt;
+def add_num(img):
+    draw = ImageDraw.Draw(img)
+    myfont = ImageFont.truetype(&#39;C:/windows/fonts/Arial.ttf&#39;, size=40)
+    fillcolor = &quot;#ff0000&quot;
+    width, height = img.size
+    draw.text((width-50, 5), &#39;99&#39;, font=myfont, fill=fillcolor)
+    img.save(&#39;result.jpg&#39;,&#39;jpeg&#39;)
 
-&lt;script&gt;
-import echarts from &#39;echarts&#39;;
-export default {
-  data() {
-    return {
-      centerDialogVisible: false
-    };
-  }
-  methods: {
-    // 打开对话框
-    open() {
-      this.centerDialogVisible = true;
-      this.$nextTick(
-        () =&gt; {
-          this.drawChart();
-        }
+    return 0
+
+if __name__ == &#39;__main__&#39;:
+    image = Image.open(&#39;F:/Picture/touxiang.jpg&#39;)
+    add_num(image)
+    image.show()</code></pre><h2 id="添加图片水印初级"><a href="#添加图片水印初级" class="headerlink" title="添加图片水印初级"></a>添加图片水印初级</h2><pre><code>from PIL import Image, ImageDraw, ImageFont
+
+def add_num(im,mark):
+    layer = Image.new(&#39;RGBA&#39;, im.size, (0, 0, 0, 0))
+    layer.paste(mark, (im.size[0] - 150, im.size[1] - 150))
+    out = Image.composite(layer, im, layer)
+    out.save(&#39;result.jpg&#39;,&#39;jpeg&#39;)
+    out.show()
+    return 0
+
+if __name__ == &#39;__main__&#39;:
+    image = Image.open(&#39;F:/Picture/touxiang.jpg&#39;)
+    mark = Image.open(&#39;F:/Picture/1022.png&#39;)
+    add_num(image,mark)</code></pre><h2 id="添加图片水印高级（支持水印格式为-svg、png-···）"><a href="#添加图片水印高级（支持水印格式为-svg、png-···）" class="headerlink" title="添加图片水印高级（支持水印格式为 svg、png ···）"></a>添加图片水印高级（支持水印格式为 svg、png ···）</h2><p>上述通常添加水印的方式有以下缺点：</p>
+<ol>
+<li>水印图片格式不支持 svg </li>
+<li>无法设置水印的透明度</li>
+<li>直接将水印粘贴到原图上后，新生成图片体积变大很多</li>
+</ol>
+<ul>
+<li><p>安装包 <a href="http://docs.wand-py.org/en/0.6.1/" target="_blank" rel="noopener">wand</a></p>
+<pre><code>$ apt-get install libmagickwand-dev
+$ pip install Wand</code></pre></li>
+<li><p>添加水印</p>
+<pre><code>import os
+import subprocess
+from wand.image import Image as WandImage
+# 添加水印函数
+def save_watermark_img(origin_img_path, watermark_path, new_img_path blend_mode=&#39;overlay&#39;, ratio=0.3, transparency=0.5):
+  &quot;&quot;&quot;添加水印
+  :param origin_img_path: 原图路径
+  :watermark_path: 水印途径
+  :new_img_path: 添加水印后的图片 
+  :param blend_mode: 图片合成方式
+  :param ratio: 水印占整个图片的比例
+  :param transparency: 水印透明度
+  :return: relative_path: 图片相对路径
+  &quot;&quot;&quot;
+  source_obj = WandImage(filename=origin_img_path)
+  watermark_obj = WandImage(filename=watermark_path)
+
+  if ratio &gt; 1:
+      ratio = 1
+  # 将水印图缩小
+  watermark_width = int(source_obj.size[0] * ratio)
+  watermark_height = int(float(watermark_width) / float(watermark_obj.size[0]) * watermark_obj.size[1])
+  # 如果水印格式为 svg，则需先转换
+  if watermark_path[-4:] == &#39;svg&#39;:
+      rsvg = subprocess.Popen(
+          [&#39;rsvg-convert&#39;, &#39;-a&#39;, &#39;-h&#39;, str(watermark_height), watermark_file],
+          stdout=subprocess.PIPE
       )
-    },
-    // 绘图
-    drawChart() {
-      var myChart = echarts.init(document.getElementById(&#39;main&#39;));
+      watermark_obj = WandImage(blob=rsvg.stdout.read())
+      del rsvg
+  else:
+      watermark_obj.resize(watermark_width, watermark_height)
+  # 设置水印图的透明度
+  watermark_obj.transparentize(transparency)
+  # 叠加图片
+  source_obj.composite_channel(
+      &#39;all_channels&#39;,
+      watermark_obj,
+      blend_mode,
+      int(source_obj.size[0] / 2 - watermark_obj.size[0] / 2),
+      int(source_obj.size[1] / 2 - watermark_obj.size[1] / 2)
+  )
+  source_obj.save(filename=os.new_img_path)</code></pre></li>
+</ul>
 
-      // 指定图表的配置项和数据
-      var option = {
-        title: {
-          text: &#39;ECharts 入门示例&#39;
-        },
-        tooltip: {},
-        legend: {
-          data:[&#39;销量&#39;]
-        },
-        xAxis: {
-          data: [&quot;衬衫&quot;,&quot;羊毛衫&quot;,&quot;雪纺衫&quot;,&quot;裤子&quot;,&quot;高跟鞋&quot;,&quot;袜子&quot;]
-        },
-        yAxis: {},
-        series: [{
-          name: &#39;销量&#39;,
-          type: &#39;bar&#39;,
-          data: [5, 20, 36, 10, 10, 20]
-        }]
-      };
-
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-    }
-  }
-};
-&lt;/script&gt;</code></pre>
 		
 		
 		<p class="post-info">
-			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-04-04 20:46
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-05-20 08:20
 		</p>
 	</div>
 </article>
@@ -252,15 +239,15 @@ export default {
 	<div class="bottom-bar-inner">
 		<div class="bottom-bar-items social-share left">
 			<span class="bottom-bar-item">Share : </span>
-			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">facebook</a></span>
-			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/&text=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Twitter</a></span>
-			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Weibo</a></span>
-			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/20/7%20-%20Python%20%E7%BB%99%E5%9B%BE%E7%89%87%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0/index.html" target="_blank" title="【python】给图片添加水印" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/05/20/7%20-%20Python%20%E7%BB%99%E5%9B%BE%E7%89%87%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0/&text=【python】给图片添加水印" target="_blank" title="【python】给图片添加水印" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=【python】给图片添加水印" target="_blank" title="【python】给图片添加水印" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/05/20/7%20-%20Python%20%E7%BB%99%E5%9B%BE%E7%89%87%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0/index.html" target="_blank" rel="nofollow">QRcode</a></span>
 		</div>
 		<div class="bottom-bar-items right">
             
-            <span class="bottom-bar-item"><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">←</a></span>
             
+            <span class="bottom-bar-item"><a href="/2020/05/20/6%20-%20Docker%20Hub%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8/">→</a></span>
             
 			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
 			<span class="bottom-bar-item"><a href="#top">↑</a></span>

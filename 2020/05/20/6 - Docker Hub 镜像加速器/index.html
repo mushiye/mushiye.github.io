@@ -23,7 +23,7 @@
     
     <title>
     
-        Vue 中使用 ECharts 在 Element 弹窗中画图 - 木实
+        Docker Hub 镜像加速器 - 木实
     
     </title>
     <meta name="keywords" content="python vue mysql redis linux docker" />
@@ -90,31 +90,27 @@
 
 
 <div class="post-header-thumb">
-	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/13.jpg);"></div>
+	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/5.jpg);"></div>
 	<div class="post-header-thumb-cover">
 		<div class="post-header-thumb-container">
 			<div class="post-header-thumb-title">
-				Vue 中使用 ECharts 在 Element 弹窗中画图
+				Docker Hub 镜像加速器
 			</div>
 			<div class="post-header-thumb-meta">
 				
-				<time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time>
-				<a href="/categories/ECharts/">ECharts</a>
+				<time datetime="1589933436" itemprop="datePublished">发布于 2020-05-20 in </time>
+				<a href="/categories/Docker/">Docker</a>
 				
 				<div class="post-header-thumb-meta" style="font-size: 13px;">
-					<span class="post-count">本文字数：524 字</span>
+					<span class="post-count">本文字数：409 字</span>
 					<span>|</span>
-					<span class="post-count">阅读时长 ≈ 2 分钟</span>
+					<span class="post-count">阅读时长 ≈ 1 分钟</span>
 				</div>
 			</div>
 			<div class="post-tags">
 				
 				
-                <a href="/tags/Vue/">Vue</a>
-                
-                <a href="/tags/ECharts/">ECharts</a>
-                
-                <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+                <a href="/tags/Docker/">Docker</a>
                 
 				
 			</div>
@@ -126,16 +122,16 @@
 <article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
 	<div class="post-header">
 		<h1 class="post-title" itemprop="name headline">
-			Vue 中使用 ECharts 在 Element 弹窗中画图
+			Docker Hub 镜像加速器
 		</h1>
 		<div class="post-data">
 			
-            <time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time><a href="/categories/ECharts/">ECharts</a>
+            <time datetime="1589933436" itemprop="datePublished">发布于 2020-05-20 in </time><a href="/categories/Docker/">Docker</a>
 			
 			<div style="font-size: 13px;">
-				<span class="post-count">本文字数：524 字</span>
+				<span class="post-count">本文字数：409 字</span>
 				<span>|</span>
-				<span class="post-count">阅读时长 ≈ 2 分钟</span>
+				<span class="post-count">阅读时长 ≈ 1 分钟</span>
 			</div>
 		</div>
 	</div>
@@ -143,108 +139,110 @@
 		<p class="post-tags">
             
             
-            <a href="/tags/Vue/">Vue</a>
-            
-            <a href="/tags/ECharts/">ECharts</a>
-            
-            <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+            <a href="/tags/Docker/">Docker</a>
             
             
         </p>
-		<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在页面中点击一个按钮，弹出一个 Element <a href="https://element.eleme.cn/#/zh-CN/component/dialog" target="_blank" rel="noopener">对话框</a>，弹窗里边使用 ECharts 画图；然而画图失败。</p>
-<h2 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h2><p>根据错误信息，推测可能是画图前 DOM 中未渲染出 ECharts 对象。</p>
-<p>等弹窗出来后，才渲染到 DOM 中。所以 ECharts 在初始化时不能获取到 DOM 中的对象来绘图。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>在 DOM 更新渲染结束之后，再执行 ECharts 绘图函数。</p>
-<p>使用 Vue 中的 <a href="https://cn.vuejs.org/v2/api/#Vue-nextTick" target="_blank" rel="noopener">nextTick</a> 来解决；将画图函数放入 nextTick 中来调用。</p>
-<blockquote>
-<h2 id="Vue-nextTick-callback-context"><a href="#Vue-nextTick-callback-context" class="headerlink" title="Vue.nextTick( [callback, context] )"></a>Vue.nextTick( [callback, context] )</h2><ul>
-<li>参数：<ul>
-<li>{Function} [callback]</li>
-<li>{Object} [context]</li>
-</ul>
-</li>
-<li>用法：<br>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。<pre><code>// 修改数据
-vm.msg = &#39;Hello&#39;
-// DOM 还没有更新
-Vue.nextTick(function () {
-// DOM 更新了
-})
-// 作为一个 Promise 使用 (2.1.0 起新增，详见接下来的提示)
-Vue.nextTick()
-.then(function () {
-  // DOM 更新了
-})</code></pre></li>
-</ul>
+		<p>国内从 Docker Hub 拉取镜像有时会遇到困难，此时可以配置镜像加速器。Docker 官方和国内很多云服务商都提供了国内加速器服务。</p>
+<h2 id="配置加速地址"><a href="#配置加速地址" class="headerlink" title="配置加速地址"></a>配置加速地址</h2><blockquote>
+<p>Ubuntu 16.04+、Debian 8+、CentOS 7+</p>
 </blockquote>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>&lt;template&gt;
-&lt;el-button type=&quot;text&quot; @click=&quot;open&quot;&gt;点击打开 Dialog 并用 ECharts 绘图&lt;/el-button&gt;
+<p>创建或修改 <code>/etc/docker/daemon.json</code></p>
+<pre><code>sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json &lt;&lt;-&#39;EOF&#39;
+{
+    &quot;registry-mirrors&quot;: [
+        &quot;https://1nj0zren.mirror.aliyuncs.com&quot;,
+        &quot;https://docker.mirrors.ustc.edu.cn&quot;,
+        &quot;http://f1361db2.m.daocloud.io&quot;,
+        &quot;https://registry.docker-cn.com&quot;
+    ]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker</code></pre><h2 id="Docker-Hub-镜像加速器列表"><a href="#Docker-Hub-镜像加速器列表" class="headerlink" title="Docker Hub 镜像加速器列表"></a>Docker Hub 镜像加速器列表</h2><table>
+<thead>
+<tr>
+<th>镜像加速器</th>
+<th>镜像加速器地址</th>
+<th>专属加速器？</th>
+<th>其它加速？</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://docker-cn.com/registry-mirror" target="_blank" rel="noopener">Docker 中国官方镜像</a></td>
+<td><a href="https://registry.docker-cn.com" target="_blank" rel="noopener">https://registry.docker-cn.com</a></td>
+<td></td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://daocloud.io/mirror" target="_blank" rel="noopener">DaoCloud 镜像站</a></td>
+<td><a href="http://f1361db2.m.daocloud.io" target="_blank" rel="noopener">http://f1361db2.m.daocloud.io</a></td>
+<td>可登录，系统分配</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Azure/container-service-for-azure-china/blob/master/aks/README.md#22-container-registry-proxy" target="_blank" rel="noopener">Azure 中国镜像</a></td>
+<td><a href="https://dockerhub.azk8s.cn" target="_blank" rel="noopener">https://dockerhub.azk8s.cn</a></td>
+<td></td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://mirrors.ustc.edu.cn/help/dockerhub.html" target="_blank" rel="noopener">科大镜像站</a></td>
+<td><a href="https://docker.mirrors.ustc.edu.cn" target="_blank" rel="noopener">https://docker.mirrors.ustc.edu.cn</a></td>
+<td></td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://cr.console.aliyun.com" target="_blank" rel="noopener">阿里云</a></td>
+<td>https://<your_code>.mirror.aliyuncs.com</td>
+<td>需登录，系统分配    Docker Hub</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://kirk-enterprise.github.io/hub-docs/#/user-guide/mirror" target="_blank" rel="noopener">七牛云</a></td>
+<td><a href="https://reg-mirror.qiniu.com" target="_blank" rel="noopener">https://reg-mirror.qiniu.com</a></td>
+<td></td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://c.163yun.com/hub" target="_blank" rel="noopener">网易云</a></td>
+<td><a href="https://hub-mirror.c.163.com" target="_blank" rel="noopener">https://hub-mirror.c.163.com</a></td>
+<td></td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://cloud.tencent.com/document/product/457/9113" target="_blank" rel="noopener">腾讯云</a></td>
+<td><a href="https://mirror.ccs.tencentyun.com" target="_blank" rel="noopener">https://mirror.ccs.tencentyun.com</a></td>
+<td></td>
+<td>Docker Hub</td>
+</tr>
+</tbody></table>
+<h2 id="检查加速器是否生效"><a href="#检查加速器是否生效" class="headerlink" title="检查加速器是否生效"></a>检查加速器是否生效</h2><p>命令行执行 docker info，如果从结果中看到了如下内容，说明配置成功。</p>
+<pre><code>Registry Mirrors:
+ [...]
+ https://registry.docker-cn.com/</code></pre><h2 id="Docker-Hub-镜像测速"><a href="#Docker-Hub-镜像测速" class="headerlink" title="Docker Hub 镜像测速"></a>Docker Hub 镜像测速</h2><p>使用镜像前后，可使用 time 统计所花费的总时间。测速前先移除本地的镜像！</p>
+<pre><code>latest: Pulling from library/node
+1c6172af85ee: Pull complete 
+b194b0e3c928: Pull complete 
+1f5ec00f35d5: Pull complete 
+93b1353672b6: Pull complete 
+3d7f38db3cca: Pull complete 
+21e102f9fe89: Pull complete 
+e63dac87cb8e: Pull complete 
+2e15f38664d9: Pull complete 
+7639f95d3d43: Pull complete 
+Digest: sha256:0fb622c982d15db12581b4e3ffc8af93e1c3198db477f431ced2431331d3c236
+Status: Downloaded newer image for node:latest
 
-&lt;el-dialog
-  title=&quot;提示&quot;
-  :visible.sync=&quot;centerDialogVisible&quot;
-  width=&quot;30%&quot;
-  center&gt;
-  &lt;!-- 为 ECharts 准备一个具备大小（宽高）的 DOM --&gt;
-  &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;
-  &lt;span slot=&quot;footer&quot; class=&quot;dialog-footer&quot;&gt;
-    &lt;el-button @click=&quot;centerDialogVisible = false&quot;&gt;取 消&lt;/el-button&gt;
-    &lt;el-button type=&quot;primary&quot; @click=&quot;centerDialogVisible = false&quot;&gt;确 定&lt;/el-button&gt;
-  &lt;/span&gt;
-&lt;/el-dialog&gt;
-&lt;/template&gt;
+real    1m0.722s
+user    0m0.095s
+sys     0m0.216s</code></pre><p>本文参考链接：<a href="https://www.jianshu.com/p/5a911f20d93e" target="_blank" rel="noopener">https://www.jianshu.com/p/5a911f20d93e</a></p>
 
-&lt;script&gt;
-import echarts from &#39;echarts&#39;;
-export default {
-  data() {
-    return {
-      centerDialogVisible: false
-    };
-  }
-  methods: {
-    // 打开对话框
-    open() {
-      this.centerDialogVisible = true;
-      this.$nextTick(
-        () =&gt; {
-          this.drawChart();
-        }
-      )
-    },
-    // 绘图
-    drawChart() {
-      var myChart = echarts.init(document.getElementById(&#39;main&#39;));
-
-      // 指定图表的配置项和数据
-      var option = {
-        title: {
-          text: &#39;ECharts 入门示例&#39;
-        },
-        tooltip: {},
-        legend: {
-          data:[&#39;销量&#39;]
-        },
-        xAxis: {
-          data: [&quot;衬衫&quot;,&quot;羊毛衫&quot;,&quot;雪纺衫&quot;,&quot;裤子&quot;,&quot;高跟鞋&quot;,&quot;袜子&quot;]
-        },
-        yAxis: {},
-        series: [{
-          name: &#39;销量&#39;,
-          type: &#39;bar&#39;,
-          data: [5, 20, 36, 10, 10, 20]
-        }]
-      };
-
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-    }
-  }
-};
-&lt;/script&gt;</code></pre>
 		
 		
 		<p class="post-info">
-			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-04-04 20:46
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-05-20 08:12
 		</p>
 	</div>
 </article>
@@ -252,15 +250,17 @@ export default {
 	<div class="bottom-bar-inner">
 		<div class="bottom-bar-items social-share left">
 			<span class="bottom-bar-item">Share : </span>
-			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">facebook</a></span>
-			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/&text=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Twitter</a></span>
-			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Weibo</a></span>
-			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/05/20/6%20-%20Docker%20Hub%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8/index.html" target="_blank" title="Docker Hub 镜像加速器" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/05/20/6%20-%20Docker%20Hub%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8/&text=Docker Hub 镜像加速器" target="_blank" title="Docker Hub 镜像加速器" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=Docker Hub 镜像加速器" target="_blank" title="Docker Hub 镜像加速器" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/05/20/6%20-%20Docker%20Hub%20%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F%E5%99%A8/index.html" target="_blank" rel="nofollow">QRcode</a></span>
 		</div>
 		<div class="bottom-bar-items right">
             
-            <span class="bottom-bar-item"><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">←</a></span>
+            <span class="bottom-bar-item"><a href="/2020/05/20/7%20-%20Python%20%E7%BB%99%E5%9B%BE%E7%89%87%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0/">←</a></span>
             
+            
+            <span class="bottom-bar-item"><a href="/2020/05/18/5%20-%20%E5%AE%B9%E9%94%99%E3%80%81%E9%AB%98%E5%8F%AF%E7%94%A8%E5%92%8C%E7%81%BE%E5%A4%87/">→</a></span>
             
 			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
 			<span class="bottom-bar-item"><a href="#top">↑</a></span>
