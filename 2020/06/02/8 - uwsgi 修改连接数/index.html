@@ -23,7 +23,7 @@
     
     <title>
     
-        Vue 中使用 ECharts 在 Element 弹窗中画图 - 木实
+        uwsgi 修改最大连接数 - 木实
     
     </title>
     <meta name="keywords" content="python vue mysql redis linux docker" />
@@ -90,31 +90,27 @@
 
 
 <div class="post-header-thumb">
-	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/11.jpg);"></div>
+	<div class="post-header-thumb-op" style="background-image:url(/images/thumbs/7.jpg);"></div>
 	<div class="post-header-thumb-cover">
 		<div class="post-header-thumb-container">
 			<div class="post-header-thumb-title">
-				Vue 中使用 ECharts 在 Element 弹窗中画图
+				uwsgi 修改最大连接数
 			</div>
 			<div class="post-header-thumb-meta">
 				
-				<time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time>
-				<a href="/categories/ECharts/">ECharts</a>
+				<time datetime="1591057081" itemprop="datePublished">发布于 2020-06-02 in </time>
+				<a href="/categories/%E5%B9%B6%E5%8F%91/">并发</a>
 				
 				<div class="post-header-thumb-meta" style="font-size: 13px;">
-					<span class="post-count">本文字数：524 字</span>
+					<span class="post-count">本文字数：313 字</span>
 					<span>|</span>
-					<span class="post-count">阅读时长 ≈ 2 分钟</span>
+					<span class="post-count">阅读时长 ≈ 1 分钟</span>
 				</div>
 			</div>
 			<div class="post-tags">
 				
 				
-                <a href="/tags/Vue/">Vue</a>
-                
-                <a href="/tags/ECharts/">ECharts</a>
-                
-                <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+                <a href="/tags/uwsgi/">uwsgi</a>
                 
 				
 			</div>
@@ -126,16 +122,16 @@
 <article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
 	<div class="post-header">
 		<h1 class="post-title" itemprop="name headline">
-			Vue 中使用 ECharts 在 Element 弹窗中画图
+			uwsgi 修改最大连接数
 		</h1>
 		<div class="post-data">
 			
-            <time datetime="1586001685" itemprop="datePublished">发布于 2020-04-04 in </time><a href="/categories/ECharts/">ECharts</a>
+            <time datetime="1591057081" itemprop="datePublished">发布于 2020-06-02 in </time><a href="/categories/%E5%B9%B6%E5%8F%91/">并发</a>
 			
 			<div style="font-size: 13px;">
-				<span class="post-count">本文字数：524 字</span>
+				<span class="post-count">本文字数：313 字</span>
 				<span>|</span>
-				<span class="post-count">阅读时长 ≈ 2 分钟</span>
+				<span class="post-count">阅读时长 ≈ 1 分钟</span>
 			</div>
 		</div>
 	</div>
@@ -143,108 +139,46 @@
 		<p class="post-tags">
             
             
-            <a href="/tags/Vue/">Vue</a>
-            
-            <a href="/tags/ECharts/">ECharts</a>
-            
-            <a href="/tags/%E5%BC%B9%E7%AA%97/">弹窗</a>
+            <a href="/tags/uwsgi/">uwsgi</a>
             
             
         </p>
-		<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在页面中点击一个按钮，弹出一个 Element <a href="https://element.eleme.cn/#/zh-CN/component/dialog" target="_blank" rel="noopener">对话框</a>，弹窗里边使用 ECharts 画图；然而画图失败。</p>
-<h2 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h2><p>根据错误信息，推测可能是画图前 DOM 中未渲染出 ECharts 对象。</p>
-<p>等弹窗出来后，才渲染到 DOM 中。所以 ECharts 在初始化时不能获取到 DOM 中的对象来绘图。</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>在 DOM 更新渲染结束之后，再执行 ECharts 绘图函数。</p>
-<p>使用 Vue 中的 <a href="https://cn.vuejs.org/v2/api/#Vue-nextTick" target="_blank" rel="noopener">nextTick</a> 来解决；将画图函数放入 nextTick 中来调用。</p>
-<blockquote>
-<h2 id="Vue-nextTick-callback-context"><a href="#Vue-nextTick-callback-context" class="headerlink" title="Vue.nextTick( [callback, context] )"></a>Vue.nextTick( [callback, context] )</h2><ul>
-<li>参数：<ul>
-<li>{Function} [callback]</li>
-<li>{Object} [context]</li>
-</ul>
-</li>
-<li>用法：<br>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。<pre><code>// 修改数据
-vm.msg = &#39;Hello&#39;
-// DOM 还没有更新
-Vue.nextTick(function () {
-// DOM 更新了
-})
-// 作为一个 Promise 使用 (2.1.0 起新增，详见接下来的提示)
-Vue.nextTick()
-.then(function () {
-  // DOM 更新了
-})</code></pre></li>
-</ul>
-</blockquote>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>&lt;template&gt;
-&lt;el-button type=&quot;text&quot; @click=&quot;open&quot;&gt;点击打开 Dialog 并用 ECharts 绘图&lt;/el-button&gt;
+		<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>用 uwsgi 启动 web 服务时，看到这么一句话：<code>your server socket listen backlog is limited to 100 connections</code></p>
+<h2 id="如何修改连接数"><a href="#如何修改连接数" class="headerlink" title="如何修改连接数"></a>如何修改连接数</h2><p>最简单的方法就是启动服务时使用 <code>-l</code> or <code>--listen</code> 选项</p>
+<pre><code>-l|--listen &lt;num&gt;
+       set  socket  listen queue to &lt;n&gt; (default 100, maximum is system
+       dependent)
 
-&lt;el-dialog
-  title=&quot;提示&quot;
-  :visible.sync=&quot;centerDialogVisible&quot;
-  width=&quot;30%&quot;
-  center&gt;
-  &lt;!-- 为 ECharts 准备一个具备大小（宽高）的 DOM --&gt;
-  &lt;div id=&quot;main&quot; style=&quot;width: 600px;height:400px;&quot;&gt;&lt;/div&gt;
-  &lt;span slot=&quot;footer&quot; class=&quot;dialog-footer&quot;&gt;
-    &lt;el-button @click=&quot;centerDialogVisible = false&quot;&gt;取 消&lt;/el-button&gt;
-    &lt;el-button type=&quot;primary&quot; @click=&quot;centerDialogVisible = false&quot;&gt;确 定&lt;/el-button&gt;
-  &lt;/span&gt;
-&lt;/el-dialog&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-import echarts from &#39;echarts&#39;;
-export default {
-  data() {
-    return {
-      centerDialogVisible: false
-    };
-  }
-  methods: {
-    // 打开对话框
-    open() {
-      this.centerDialogVisible = true;
-      this.$nextTick(
-        () =&gt; {
-          this.drawChart();
-        }
-      )
-    },
-    // 绘图
-    drawChart() {
-      var myChart = echarts.init(document.getElementById(&#39;main&#39;));
-
-      // 指定图表的配置项和数据
-      var option = {
-        title: {
-          text: &#39;ECharts 入门示例&#39;
-        },
-        tooltip: {},
-        legend: {
-          data:[&#39;销量&#39;]
-        },
-        xAxis: {
-          data: [&quot;衬衫&quot;,&quot;羊毛衫&quot;,&quot;雪纺衫&quot;,&quot;裤子&quot;,&quot;高跟鞋&quot;,&quot;袜子&quot;]
-        },
-        yAxis: {},
-        series: [{
-          name: &#39;销量&#39;,
-          type: &#39;bar&#39;,
-          data: [5, 20, 36, 10, 10, 20]
-        }]
-      };
-
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-    }
-  }
-};
-&lt;/script&gt;</code></pre>
+配置文件中用 listen=&lt;num&gt;</code></pre><p>但是，当修改连接数大于 128 时，uwsgi 启动服务会失败</p>
+<p>这是因为在 Unix scoket 和 TCP 连接监听队列上也有系统级别限制，缺省值为128，需要修改这个限制</p>
+<p>可以通过以下命令来验证 <code>cat /proc/sys/net/core/somaxconn</code></p>
+<p>如果想突破该限制，可用以下命令：</p>
+<pre><code>$ echo 4096 &gt; /proc/sys/net/core/somaxconn
+或者
+$ sysctl -w net.core.somaxconn=4096</code></pre><p>或者添加 <code>net.core.somaxconn=4096</code> 到 <code>/etc/sysctl.conf</code> 使其在重启后仍然存在</p>
+<h2 id="如果使用-docker-或-docker-compose-呢"><a href="#如果使用-docker-或-docker-compose-呢" class="headerlink" title="如果使用 docker 或 docker-compose 呢"></a>如果使用 docker 或 docker-compose 呢</h2><ol>
+<li>如何在内核中提高连接数</li>
+</ol>
+<p>在 <code>docker-compose.yml</code>，可以这样做</p>
+<pre><code>uwsgi_runner:
+    &lt;&lt;: *app-base
+    command: /usr/local/bin/uwsgi --ini /app/uwsgi.ini
+    # ... other settings ...
+    sysctls:
+        net.core.somaxconn: 1024 # set max connections to 1024 in kernel</code></pre><ol start="2">
+<li>如何在 uwsgi 中提高连接数</li>
+</ol>
+<p>在 <code>uwsgi.ini</code>：</p>
+<pre><code>[uwsgi]
+# ... other settings ...
+listen = 1024 # set max connections to 1024 in uWSGI</code></pre><p>或者用命令选项：</p>
+<pre><code>uwsgi_runner:
+    &lt;&lt;: *app-base
+    command: /usr/local/bin/uwsgi -l 1024 #other-parameters-here</code></pre>
 		
 		
 		<p class="post-info">
-			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-04-04 20:46
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-06-02 08:29
 		</p>
 	</div>
 </article>
@@ -252,15 +186,15 @@ export default {
 	<div class="bottom-bar-inner">
 		<div class="bottom-bar-items social-share left">
 			<span class="bottom-bar-item">Share : </span>
-			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">facebook</a></span>
-			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/&text=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Twitter</a></span>
-			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=Vue 中使用 ECharts 在 Element 弹窗中画图" target="_blank" title="Vue 中使用 ECharts 在 Element 弹窗中画图" rel="nofollow">Weibo</a></span>
-			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/04/04/1%20-%20Vue%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts%20%E5%9C%A8%20Element%20%E5%BC%B9%E7%AA%97%E4%B8%AD%E7%94%BB%E5%9B%BE/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/06/02/8%20-%20uwsgi%20%E4%BF%AE%E6%94%B9%E8%BF%9E%E6%8E%A5%E6%95%B0/index.html" target="_blank" title="uwsgi 修改最大连接数" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/06/02/8%20-%20uwsgi%20%E4%BF%AE%E6%94%B9%E8%BF%9E%E6%8E%A5%E6%95%B0/&text=uwsgi 修改最大连接数" target="_blank" title="uwsgi 修改最大连接数" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=uwsgi 修改最大连接数" target="_blank" title="uwsgi 修改最大连接数" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/06/02/8%20-%20uwsgi%20%E4%BF%AE%E6%94%B9%E8%BF%9E%E6%8E%A5%E6%95%B0/index.html" target="_blank" rel="nofollow">QRcode</a></span>
 		</div>
 		<div class="bottom-bar-items right">
             
-            <span class="bottom-bar-item"><a href="/2020/04/05/2%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/">←</a></span>
             
+            <span class="bottom-bar-item"><a href="/2020/05/20/7%20-%20Python%20%E7%BB%99%E5%9B%BE%E7%89%87%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0/">→</a></span>
             
 			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
 			<span class="bottom-bar-item"><a href="#top">↑</a></span>
