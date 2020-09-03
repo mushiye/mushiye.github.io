@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    <link rel="dns-prefetch" href="//cdn.bootcss.com" />
+    <link rel="dns-prefetch" href="//secure.gravatar.com" />
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    
+    <title>
+    
+        什么是 CI ？什么是CD - 木实
+    
+    </title>
+    <meta name="keywords" content="python vue mysql redis linux docker" />
+    <meta name="description" content="一个 python 工程师的全栈之路" />
+    
+    <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/atom-one-dark.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.min.css">
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+</head>
+<body class="bg-white" gtools_scp_screen_capture_injected="true">
+<a id="top" style="top: 0px;"></a>
+<!--[if lt IE 8]>
+<div class="browsehappy" role="dialog">
+    当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/" target="_blank">升级你的浏览器</a>。
+</div>
+<![endif]-->
+<header id="header" class="header bg-white">
+    <div class="navbar-container">
+        <a href="/" class="navbar-logo">
+            
+            木实
+            
+        </a>
+        <div class="navbar-menu">
+            
+            <a href="/categories" class="">分类</a>
+            
+            <a href="/tags" class="">标签</a>
+            
+            <a href="/archives" class="">归档</a>
+            
+            <a href="/links" class="">友情链接</a>
+            
+            <a href="/about" class="">关于我</a>
+            
+        </div>
+        <div class="navbar-mobile-menu" onclick="">
+            <span class="icon-menu cross"><span class="middle"></span></span>
+            <ul>
+                
+                <li><a href="/categories" class="">分类</a></li>
+                
+                <li><a href="/tags" class="">标签</a></li>
+                
+                <li><a href="/archives" class="">归档</a></li>
+                
+                <li><a href="/links" class="">友情链接</a></li>
+                
+                <li><a href="/about" class="">关于我</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</header>
+
+
+
+<div class="post-header-thumb">
+	<div class="post-header-thumb-op" style="background-image:url(https://www.redhat.com/cms/managed-files/ci-cd-flow-desktop_1.png);"></div>
+	<div class="post-header-thumb-cover">
+		<div class="post-header-thumb-container">
+			<div class="post-header-thumb-title">
+				什么是 CI ？什么是CD
+			</div>
+			<div class="post-header-thumb-meta">
+				
+				<time datetime="1596878532" itemprop="datePublished">发布于 2020-08-08 in </time>
+				<a href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+				
+				<div class="post-header-thumb-meta" style="font-size: 13px;">
+					<span class="post-count">本文字数：1.6k 字</span>
+					<span>|</span>
+					<span class="post-count">阅读时长 ≈ 5 分钟</span>
+				</div>
+			</div>
+			<div class="post-tags">
+				
+				
+                <a href="/tags/CI/">CI</a>
+                
+                <a href="/tags/CD/">CD</a>
+                
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<article class="main-content post-page" itemscope itemtype="http://schema.org/Article">
+	<div class="post-header">
+		<h1 class="post-title" itemprop="name headline">
+			什么是 CI ？什么是CD
+		</h1>
+		<div class="post-data">
+			
+            <time datetime="1596878532" itemprop="datePublished">发布于 2020-08-08 in </time><a href="/categories/%E5%85%B6%E4%BB%96/">其他</a>
+			
+			<div style="font-size: 13px;">
+				<span class="post-count">本文字数：1.6k 字</span>
+				<span>|</span>
+				<span class="post-count">阅读时长 ≈ 5 分钟</span>
+			</div>
+		</div>
+	</div>
+	<div id="post-content" class="post-content" itemprop="articleBody">
+		<p class="post-tags">
+            
+            
+            <a href="/tags/CI/">CI</a>
+            
+            <a href="/tags/CD/">CD</a>
+            
+            
+        </p>
+		<p>CI/CD是什么？如何理解持续集成、持续交付和持续部署</p>
+<p>CI/CD 是一种通过在应用开发阶段引入自动化来频繁向客户交付应用的方法。CI/CD 的核心概念是持续集成、持续交付和持续部署。作为一个面向开发和运营团队的解决方案，CI/CD 主要针对在集成新代码时所引发的问题（亦称：“集成地狱”）。</p>
+<p>具体而言，CI/CD 可让持续自动化和持续监控贯穿于应用的整个生命周期（从集成和测试阶段，到交付和部署）。这些关联的事务通常被统称为“CI/CD 管道”，由开发和运维团队以敏捷方式协同支持。</p>
+<h3 id="CI-是什么？CI-和-CD-有什么区别？"><a href="#CI-是什么？CI-和-CD-有什么区别？" class="headerlink" title="CI 是什么？CI 和 CD 有什么区别？"></a>CI 是什么？CI 和 CD 有什么区别？</h3><p>缩略词 CI / CD 具有几个不同的含义。CI/CD 中的“CI”始终指持续集成，它属于开发人员的自动化流程。成功的 CI 意味着应用代码的新更改会定期构建、测试并合并到共享存储库中。该解决方案可以解决在一次开发中有太多应用分支，从而导致相互冲突的问题。</p>
+<p>CI/CD 中的“CD”指的是持续交付和/或持续部署，这些相关概念有时会交叉使用。两者都事关管道后续阶段的自动化，但它们有时也会单独使用，用于说明自动化程度。</p>
+<p>持续交付通常是指开发人员对应用的更改会自动进行错误测试并上传到存储库（如 GitHub 或容器注册表），然后由运维团队将其部署到实时生产环境中。这旨在解决开发和运维团队之间可见性及沟通较差的问题。因此，持续交付的目的就是确保尽可能减少部署新代码时所需的工作量。</p>
+<p>持续部署（另一种“CD”）指的是自动将开发人员的更改从存储库发布到生产环境，以供客户使用。它主要为了解决因手动流程降低应用交付速度，从而使运维团队超负荷的问题。持续部署以持续交付的优势为根基，实现了管道后续阶段的自动化。</p>
+<p><a data-fancybox="gallery" href="https://www.redhat.com/cms/managed-files/ci-cd-flow-desktop_1.png" target="_blank" rel="noopener" data-height="800"><img src="https://www.redhat.com/cms/managed-files/ci-cd-flow-desktop_1.png"></a></p>
+<p>CI/CD 既可能仅指持续集成和持续交付构成的关联环节，也可以指持续集成、持续交付和持续部署这三项构成的关联环节。更为复杂的是，有时“持续交付”也包含了持续部署流程。</p>
+<p>归根结底，我们没必要纠结于这些语义，您只需记得 CI/CD 其实就是一个流程（通常形象地表述为管道），用于实现应用开发中的高度持续自动化和持续监控。因案例而异，该术语的具体含义取决于 CI/CD 管道的自动化程度。许多企业最开始先添加 CI，然后逐步实现交付和部署的自动化（例如作为云原生应用的一部分）。</p>
+<h3 id="CI-持续集成（Continuous-Integration）"><a href="#CI-持续集成（Continuous-Integration）" class="headerlink" title="CI 持续集成（Continuous Integration）"></a>CI 持续集成（Continuous Integration）</h3><p>现代应用开发的目标是让多位开发人员同时处理同一应用的不同功能。但是，如果企业安排在一天内将所有分支源代码合并在一起（称为“合并日”），最终可能造成工作繁琐、耗时，而且需要手动完成。这是因为当一位独立工作的开发人员对应用进行更改时，有可能会与其他开发人员同时进行的更改发生冲突。如果每个开发人员都自定义自己的本地集成开发环境（IDE），而不是让团队就一个基于云的 IDE 达成一致，那么就会让问题更加雪上加霜。</p>
+<p>持续集成（CI）可以帮助开发人员更加频繁地（有时甚至每天）将代码更改合并到共享分支或“主干”中。一旦开发人员对应用所做的更改被合并，系统就会通过自动构建应用并运行不同级别的自动化测试（通常是单元测试和集成测试）来验证这些更改，确保这些更改没有对应用造成破坏。这意味着测试内容涵盖了从类和函数到构成整个应用的不同模块。如果自动化测试发现新代码和现有代码之间存在冲突，CI 可以更加轻松地快速修复这些错误。</p>
+<h3 id="CD-持续交付（Continuous-Delivery）"><a href="#CD-持续交付（Continuous-Delivery）" class="headerlink" title="CD 持续交付（Continuous Delivery）"></a>CD 持续交付（Continuous Delivery）</h3><p>完成 CI 中构建及单元测试和集成测试的自动化流程后，持续交付可自动将已验证的代码发布到存储库。为了实现高效的持续交付流程，务必要确保 CI 已内置于开发管道。持续交付的目标是拥有一个可随时部署到生产环境的代码库。</p>
+<p>在持续交付中，每个阶段（从代码更改的合并，到生产就绪型构建版本的交付）都涉及测试自动化和代码发布自动化。在流程结束时，运维团队可以快速、轻松地将应用部署到生产环境中。</p>
+<h3 id="CD-持续部署（Continuous-Deployment）"><a href="#CD-持续部署（Continuous-Deployment）" class="headerlink" title="CD 持续部署（Continuous Deployment）"></a>CD 持续部署（Continuous Deployment）</h3><p>对于一个成熟的 CI/CD 管道来说，最后的阶段是持续部署。作为持续交付——自动将生产就绪型构建版本发布到代码存储库——的延伸，持续部署可以自动将应用发布到生产环境。由于在生产之前的管道阶段没有手动门控，因此持续部署在很大程度上都得依赖精心设计的测试自动化。</p>
+<p>实际上，持续部署意味着开发人员对应用的更改在编写后的几分钟内就能生效（假设它通过了自动化测试）。这更加便于持续接收和整合用户反馈。总而言之，所有这些 CI/CD 的关联步骤都有助于降低应用的部署风险，因此更便于以小件的方式（而非一次性）发布对应用的更改。不过，由于还需要编写自动化测试以适应 CI/CD 管道中的各种测试和发布阶段，因此前期投资还是会很大。</p>
+
+		
+		
+		<p class="post-info">
+			本文由 <a href="http://yoursite.com">曾果</a> 创作，采用 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="external nofollow">知识共享署名4.0</a> 国际许可协议进行许可<br>本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名<br>最后编辑时间为: 2020-09-03 23:12
+		</p>
+	</div>
+</article>
+<div id="post-bottom-bar" class="post-bottom-bar">
+	<div class="bottom-bar-inner">
+		<div class="bottom-bar-items social-share left">
+			<span class="bottom-bar-item">Share : </span>
+			<span class="bottom-bar-item bottom-bar-facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/08/08/13%20-%20CI%20%E5%92%8C%20CD/index.html" target="_blank" title="什么是 CI ？什么是CD" rel="nofollow">facebook</a></span>
+			<span class="bottom-bar-item bottom-bar-twitter"><a href="https://twitter.com/intent/tweet?url=http://yoursite.com/2020/08/08/13%20-%20CI%20%E5%92%8C%20CD/&text=什么是 CI ？什么是CD" target="_blank" title="什么是 CI ？什么是CD" rel="nofollow">Twitter</a></span>
+			<span class="bottom-bar-item bottom-bar-weibo"><a href="http://service.weibo.com/share/share.php?url=&amp;title=什么是 CI ？什么是CD" target="_blank" title="什么是 CI ？什么是CD" rel="nofollow">Weibo</a></span>
+			<span class="bottom-bar-item bottom-bar-qrcode"><a href="//pan.baidu.com/share/qrcode?w=300&amp;h=300&amp;url=http://yoursite.com/2020/08/08/13%20-%20CI%20%E5%92%8C%20CD/index.html" target="_blank" rel="nofollow">QRcode</a></span>
+		</div>
+		<div class="bottom-bar-items right">
+            
+            <span class="bottom-bar-item"><a href="/2020/08/13/14%20-%20Vim%20%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/">←</a></span>
+            
+            
+            <span class="bottom-bar-item"><a href="/2020/08/01/12%20-%20%E7%A1%AE%E4%BF%9D%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%20python%20%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C/">→</a></span>
+            
+			<span class="bottom-bar-item"><a href="#footer">↓</a></span>
+			<span class="bottom-bar-item"><a href="#top">↑</a></span>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<footer id="footer" class="footer bg-white">
+	<div class="footer-social">
+		<div class="footer-container clearfix">
+			<div class="social-list">
+                
+                    <a class="social" target="blank" href="https://github.com/mushiye">Github</a>
+                
+            </div>
+		</div>
+	</div>
+	<div class="footer-meta">
+		<div class="footer-container">
+			<div class="meta-item meta-copyright">
+				<div class="meta-copyright-info">
+                    <a href="http://yoursite.com" class="info-logo">
+                        
+                        木实
+                        
+                    </a>
+					<div class="info-text">
+                        <!-- <p id="chakhsu"></p>
+                    	<p>Theme is <a href="https://github.com/cccyb/hexo-theme-pinghsu" target="_blank">Pinghsu</a> by <a href="http://yoursite.com" target="_blank">曾果</a></p>
+						<p>Powered by <a href="https://hexo.io/" target="_blank" rel="nofollow">hexo</a></p> -->
+                        <p style="margin-top: 10px">站点总字数：18.3k</p>
+                        <!-- 
+                        <p><span id="busuanzi_container_site_pv" style='display:none'>本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</span></p>
+                        <p><span id="busuanzi_container_site_uv" style='display:none'>本站访客数 <span id="busuanzi_value_site_uv"></span> 人次</span></p> -->
+                        
+                        
+                        <p style="margin-top: 10px">&copy; 2020 - 2020 <a href="http://yoursite.com">木实</a></p>
+                    </div>
+				</div>
+            </div>
+            
+            <div class="meta-item meta-posts">
+                <h3 class="meta-title">最近文章</h3>
+                
+                <li><a href="/2020/09/03/21%20-%20%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90%E5%AE%89%E8%A3%85%20kubernets/">ubuntu 使用国内镜像源安装 kubernets</a></li>
+                
+                <li><a href="/2020/08/25/16%20-%20%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/">缓存穿透、缓存击穿、缓存雪崩概念及解决方案</a></li>
+                
+                <li><a href="/2020/08/19/15%20-%20PyQt5%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/">PyQt5 传递参数</a></li>
+                
+                <li><a href="/2020/08/13/14%20-%20Vim%20%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/">Vim 必知必会</a></li>
+                
+                <li><a href="/2020/08/08/13%20-%20CI%20%E5%92%8C%20CD/">什么是 CI ？什么是CD</a></li>
+                
+                <li><a href="/2020/08/01/12%20-%20%E7%A1%AE%E4%BF%9D%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%20python%20%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C/">如何在 Linux 中确保只有一个 Python 应用程序在运行</a></li>
+                
+                <li><a href="/2020/07/18/19%20-%20opencv%20%E4%BB%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E7%9A%84%E8%A7%86%E9%A2%91%E6%97%A0%E6%B3%95%E5%9C%A8%E7%BD%91%E9%A1%B5%E4%B8%8A%E6%92%AD%E6%94%BE%E9%97%AE%E9%A2%98/">opencv 从图片生成的视频无法在网页上播放问题</a></li>
+                
+                <li><a href="/2020/07/13/20%20-%20Linux%20%E4%B8%BA%20python%20%E9%85%8D%E7%BD%AE%20pip3%20%E9%95%9C%E5%83%8F%E6%BA%90/">Linux 为 python 配置 pip3 镜像源</a></li>
+                
+            </div>
+            
+            
+		</div>
+	</div>
+</footer>
+
+
+<div id="directory-content" class="directory-content">
+    <div id="directory"></div>
+</div>
+<script>
+var postDirectoryBuild = function() {
+    var postChildren = function children(childNodes, reg) {
+        var result = [],
+            isReg = typeof reg === 'object',
+            isStr = typeof reg === 'string',
+            node, i, len;
+        for (i = 0, len = childNodes.length; i < len; i++) {
+            node = childNodes[i];
+            if ((node.nodeType === 1 || node.nodeType === 9) &&
+                (!reg ||
+                isReg && reg.test(node.tagName.toLowerCase()) ||
+                isStr && node.tagName.toLowerCase() === reg)) {
+                result.push(node);
+            }
+        }
+        return result;
+    },
+    createPostDirectory = function(article, directory, isDirNum) {
+        var contentArr = [],
+            titleId = [],
+            levelArr, root, level,
+            currentList, list, li, link, i, len;
+        levelArr = (function(article, contentArr, titleId) {
+            var titleElem = postChildren(article.childNodes, /^h\d$/),
+                levelArr = [],
+                lastNum = 1,
+                lastRevNum = 1,
+                count = 0,
+                guid = 1,
+                id = 'directory' + (Math.random() + '').replace(/\D/, ''),
+                lastRevNum, num, elem;
+            while (titleElem.length) {
+                elem = titleElem.shift();
+                contentArr.push(elem.innerHTML);
+                num = +elem.tagName.match(/\d/)[0];
+                if (num > lastNum) {
+                    levelArr.push(1);
+                    lastRevNum += 1;
+                } else if (num === lastRevNum ||
+                    num > lastRevNum && num <= lastNum) {
+                    levelArr.push(0);
+                    lastRevNum = lastRevNum;
+                } else if (num < lastRevNum) {
+                    levelArr.push(num - lastRevNum);
+                    lastRevNum = num;
+                }
+                count += levelArr[levelArr.length - 1];
+                lastNum = num;
+                elem.id = id + guid++;
+                titleId.push(elem.id);
+            }
+            if (count !== 0 && levelArr[0] === 1) levelArr[0] = 0;
+            return levelArr;
+        })(article, contentArr, titleId);
+        currentList = root = document.createElement('ul');
+        dirNum = [0];
+        for (i = 0, len = levelArr.length; i < len; i++) {
+            level = levelArr[i];
+            if (level === 1) {
+                list = document.createElement('ul');
+                if (!currentList.lastElementChild) {
+                    currentList.appendChild(document.createElement('li'));
+                }
+                currentList.lastElementChild.appendChild(list);
+                currentList = list;
+                dirNum.push(0);
+            } else if (level < 0) {
+                level *= 2;
+                while (level++) {
+                    if (level % 2) dirNum.pop();
+                    currentList = currentList.parentNode;
+                }
+            }
+            dirNum[dirNum.length - 1]++;
+            li = document.createElement('li');
+            link = document.createElement('a');
+            link.href = '#' + titleId[i];
+            link.innerHTML = !isDirNum ? contentArr[i] :
+                dirNum.join('.') + ' ' + contentArr[i] ;
+            li.appendChild(link);
+            currentList.appendChild(li);
+        }
+        directory.appendChild(root);
+    };
+    createPostDirectory(document.getElementById('post-content'),document.getElementById('directory'), true);
+};
+postDirectoryBuild();
+</script>
+
+<script src="//cdn.bootcss.com/headroom/0.9.1/headroom.min.js"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+
+<script>
+
+var postDirectory = new Headroom(document.getElementById("directory-content"), {
+    tolerance: 0,
+    
+    offset : 280,
+    
+    classes: {
+        initial: "initial",
+        pinned: "pinned",
+        unpinned: "unpinned"
+    }
+});
+postDirectory.init();
+
+
+var postSharer = new Headroom(document.getElementById("post-bottom-bar"), {
+    tolerance: 0,
+    offset : 70,
+    classes: {
+        initial: "animated",
+        pinned: "pinned",
+        unpinned: "unpinned"
+    }
+});
+postSharer.init();
+
+var header = new Headroom(document.getElementById("header"), {
+    tolerance: 0,
+    offset : 70,
+    classes: {
+      initial: "animated",
+      pinned: "slideDown",
+      unpinned: "slideUp"
+    }
+});
+header.init();
+
+hljs.initHighlightingOnLoad();
+ 
+
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
+
+</script>
+<script>
+var words = 'Hexo,Theme,Pinghsu'.split(',').map(item => item.trim());
+var chakhsu = function(r){function t(){return b[Math.floor(Math.random()*b.length)]}function e(){return String.fromCharCode(94*Math.random()+33)}function n(r){for(var n=document.createDocumentFragment(),i=0;r>i;i++){var l=document.createElement("span");l.textContent=e(),l.style.color=t(),n.appendChild(l)}return n}function i(){var t=o[c.skillI];c.step?c.step--:(c.step=g,c.prefixP<l.length?(c.prefixP>=0&&(c.text+=l[c.prefixP]),c.prefixP++):"forward"===c.direction?c.skillP<t.length?(c.text+=t[c.skillP],c.skillP++):c.delay?c.delay--:(c.direction="backward",c.delay=a):c.skillP>0?(c.text=c.text.slice(0,-1),c.skillP--):(c.skillI=(c.skillI+1)%o.length,c.direction="forward")),r.textContent=c.text,r.appendChild(n(c.prefixP<l.length?Math.min(s,s+c.prefixP):Math.min(s,t.length-c.skillP))),setTimeout(i,d)}var l="I work with ",o=words.map(function(r){return r+"."}),a=2,g=1,s=5,d=75,b=["rgb(110,64,170)","rgb(150,61,179)","rgb(191,60,175)","rgb(228,65,157)","rgb(254,75,131)","rgb(255,94,99)","rgb(255,120,71)","rgb(251,150,51)","rgb(226,183,47)","rgb(198,214,60)","rgb(175,240,91)","rgb(127,246,88)","rgb(82,246,103)","rgb(48,239,130)","rgb(29,223,163)","rgb(26,199,194)","rgb(35,171,216)","rgb(54,140,225)","rgb(76,110,219)","rgb(96,84,200)"],c={text:"",prefixP:-s,skillI:0,skillP:0,direction:"forward",delay:a,step:g};i()};chakhsu(document.getElementById('chakhsu')); if ('addEventListener' in document) { document.addEventListener('DOMContentLoaded', function() { FastClick.attach(document.body); }, false); }
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    showProcessingMessages: false,
+    messageStyle: "none",
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+        ignoreClass:"comment-content"
+    },
+    "HTML-CSS": {
+        availableFonts: ["STIX","TeX"],
+        showMathMenu: false
+    }
+});
+MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script>
+
+
+
+</script>
+
+</body>
+</html>
